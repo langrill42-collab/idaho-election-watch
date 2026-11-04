@@ -1,6 +1,29 @@
 # Idaho Election Watch
 
-A local Mac election desk for November 3, 2026. Coverage opens with all 105 Idaho legislative races, followed by statewide offices and questions, then Ada County and ACHD. Ada judicial races and retention questions are excluded. Legislative races have preliminary pre-election rating buckets; the interface does not display numerical win probabilities or make winner calls.
+An election desk for November 3, 2026, available on this Mac and on GitHub Pages. Coverage opens with all 105 Idaho legislative races, followed by statewide offices and questions, then Ada County and ACHD. Ada judicial races and retention questions are excluded. Legislative races have preliminary pre-election rating buckets; the interface does not display numerical win probabilities or make winner calls.
+
+## Website
+
+[Open Idaho Election Watch](https://langrill42-collab.github.io/idaho-election-watch/).
+
+GitHub Pages serves the interface and public JSON snapshots. A GitHub Actions workflow fetches official results from GitHub's runners, beginning after **9 p.m. Mountain / 8 p.m. Pacific on November 3**. It is scheduled every five minutes, with a minimum five-minute gap after the previous successful retrieval. [GitHub can delay scheduled jobs](https://docs.github.com/en/actions/reference/workflows-and-actions/events-that-trigger-workflows#schedule), and publishing adds some delay. The source and retrieval timestamps identify the snapshot being shown. Sunshine totals refresh hourly.
+
+The website checks for published snapshots every five minutes after polls close. Its refresh button loads the latest published snapshot; it does not contact the SOS or start a new collection job. To request a collection and publication, run **Publish Election Watch** manually in the repository's Actions tab (the same poll-close and minimum-interval limits apply). Disable that workflow there when automatic updates are no longer needed.
+
+Notes, watchlists, and manual rating overrides stay in the visitor's browser. They are not uploaded or shared, and your desktop profile is not included in the site. The exported data includes the public candidate roster, results, finance figures, and the preliminary model's ratings and assumptions.
+
+The build restores the newer of its cached results and the last deployed snapshot before fetching. Results and finance data are cached before deployment, so a failed deployment can retry the saved results without another official request. A failed official request retains the last valid snapshot. Failure to retrieve the published snapshot, except for a first-deployment 404, stops publication and leaves the existing site available. `data/seed/` supplies public snapshots for the first build. Only `_site/` is deployed, containing the interface, public results, and boundaries.
+
+To build a static preview without contacting official sources:
+
+```sh
+python3 publish_site.py --output /tmp/election-preview/idaho-election-watch
+python3 -m http.server 8877 --bind 127.0.0.1 --directory /tmp/election-preview
+```
+
+Open <http://127.0.0.1:8877/idaho-election-watch/>. The output directory must be new. The publisher uses only the Python standard library; GitHub does not install desktop dependencies.
+
+## Mac app
 
 Double-click **Idaho Election Watch.app** or **Election Watch.command** in this folder. The window uses a server bound to `127.0.0.1:8766`. Closing its owning window stops the server. To run in a browser instead:
 
@@ -64,6 +87,8 @@ node --check static/app.js
 
 The data tests cover total-vs-county separation, awaiting-vs-reported zero, House seat identity, local contest IDs, vote denominators, and finance identity/ambiguity. Browser checks cover navigation, map/list selection, filters, sorting, watchlist/notes persistence, source links and smaller-window layout.
 
-Leaflet 1.9.4 is vendored locally; its license is in `static/vendor/LICENSE`. All application code, caches and preferences stay on this Mac. Network requests retrieve official election/finance data; clicking source links opens the corresponding official page.
+Leaflet 1.9.4 is vendored locally; its license is in `static/vendor/LICENSE`. The Mac app keeps its caches and preferences locally and retrieves official election/finance data directly. The website loads published snapshots from GitHub Pages. Clicking source links opens the corresponding official page.
 
 For the browser persistence regressions, run `node tests/browser_ratings.cjs` with Playwright available. `ELECTION_WATCH_URL` can select a local test server, and `ELECTION_WATCH_PLAYWRIGHT_PATH` can point to an existing Playwright installation. The tests use an isolated browser profile and do not modify the Mac app’s saved ratings.
+
+Run `node tests/browser_pages.cjs` against the static preview for project-path loading, maps, all coverage tabs, snapshot-only refresh, browser-local notes, and mobile layout. The same Playwright and URL environment variables apply.

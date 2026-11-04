@@ -1,0 +1,60 @@
+name: Publish Election Watch
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+  schedule:
+    - cron: '2-57/5 * * * *'
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: election-watch-pages
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Check election logic
+        run: python -m unittest discover -s tests
+      - uses: actions/cache/restore@v4
+        with:
+          path: |
+            data/current.json
+            data/finance.json
+          key: election-data-v1-${{ github.run_id }}-${{ github.run_attempt }}
+          restore-keys: election-data-v1-
+      - name: Record restored snapshot content
+        id: restored-data
+        run: echo "hash=${{ hashFiles('data/current.json', 'data/finance.json') }}" >> "$GITHUB_OUTPUT"
+      - uses: actions/configure-pages@v5
+        id: pages
+      - name: Build from public data
+        env:
+          SITE_URL: ${{ steps.pages.outputs.base_url }}
+        run: python publish_site.py --refresh --previous-site "$SITE_URL"
+      - uses: actions/cache/save@v4
+        if: steps.restored-data.outputs.hash != hashFiles('data/current.json', 'data/finance.json')
+        with:
+          path: |
+            data/current.json
+            data/finance.json
+          key: election-data-v1-${{ github.run_id }}-${{ github.run_attempt }}
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+      - uses: actions/deploy-pages@v4
+        id: deployment

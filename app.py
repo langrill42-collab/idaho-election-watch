@@ -84,6 +84,22 @@ def create_server(store):
     return ThreadingHTTPServer(("127.0.0.1", PORT), Handler)
 
 
+def refresh_sources(store, now):
+    if now < AUTO_REFRESH_STARTS_AT:
+        return
+    last_results = (store.get() or {}).get("meta", {}).get("fetchedAt")
+    if last_results and (now - datetime.fromisoformat(last_results)).total_seconds() < AUTO_REFRESH_INTERVAL_SECONDS:
+        return
+    fetched = store.finance.get("fetchedAt")
+    age = (now - datetime.fromisoformat(fetched)).total_seconds() if fetched else float("inf")
+    if age > 3600:
+        try:
+            store.refresh_finance()
+        except Exception as error:
+            print(f"Fundraising update unavailable; keeping cached figures: {error}", flush=True)
+    store.refresh()
+
+
 def update_loop(store, stop):
     while not stop.is_set():
         now = datetime.now(timezone.utc)
@@ -91,14 +107,7 @@ def update_loop(store, stop):
             stop.wait(min(AUTO_REFRESH_INTERVAL_SECONDS, (AUTO_REFRESH_STARTS_AT - now).total_seconds()))
             continue
         try:
-            fetched = store.finance.get("fetchedAt")
-            age = (now - datetime.fromisoformat(fetched)).total_seconds() if fetched else float("inf")
-            if age > 3600:
-                try:
-                    store.refresh_finance()
-                except Exception as error:
-                    print(f"Fundraising update unavailable; keeping cached figures: {error}", flush=True)
-            store.refresh()
+            refresh_sources(store, now)
         except Exception as error:
             print(f"Results update unavailable: {error}", flush=True)
         stop.wait(AUTO_REFRESH_INTERVAL_SECONDS)

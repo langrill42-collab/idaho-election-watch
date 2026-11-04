@@ -7,3 +7,4 @@ data/current.json
 data/finance.json
 data/window/
 *.log
+_site/
