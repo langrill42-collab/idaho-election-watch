@@ -64,12 +64,34 @@ class ProjectionTests(unittest.TestCase):
 
     def test_independent_identity_and_district_boundaries_are_not_transferable(self):
         independent = race()
+        independent["candidates"][0]["party"] = "Constitution"
+        independent["history"]["candidates"][0]["party"] = "Constitution"
         independent["candidates"][1].update(name="New Independent", party="Independent")
         independent["history"]["candidates"][1]["party"] = "Independent"
         self.assertEqual(ratings(independent)[0]["projection"]["bucket"], "unrated")
         missing = race()
         missing["history"] = None
         self.assertEqual(ratings(missing, race("sen14", district=14, margin=60))[0]["projection"]["bucket"], "unrated")
+
+    def test_single_major_party_candidate_is_no_contest_against_minor_opposition(self):
+        for party, opponents in (("Republican", ["Independent"]),
+                                 ("Democratic", ["Libertarian"]),
+                                 ("Republican", ["Independent", "Constitution"])):
+            with self.subTest(party=party, opponents=opponents):
+                r = race(margin=-60)
+                r["candidates"] = [{"id": "major", "name": "Major Candidate", "party": party}] + [
+                    {"id": str(i), "name": f"Opponent {i}", "party": opponent}
+                    for i, opponent in enumerate(opponents)]
+                p = ratings(r)[0]["projection"]
+                self.assertEqual(p["bucket"], "no-contest")
+                self.assertEqual(p["favoredCandidateId"], "major")
+                self.assertEqual(p["basis"], "single-major-party")
+                self.assertIsNone(p["marginPoints"])
+
+    def test_single_major_party_rule_does_not_pick_between_two_major_candidates(self):
+        r = race()
+        r["candidates"][1]["party"] = "Republican"
+        self.assertEqual(ratings(r)[0]["projection"]["bucket"], "unrated")
 
     def test_non_legislative_races_are_not_given_partisan_predictions(self):
         r = race()

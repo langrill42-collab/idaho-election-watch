@@ -3,7 +3,7 @@ from statistics import median
 import re
 import unicodedata
 
-MODEL_VERSION = "legislative-two-cycle-v1"
+MODEL_VERSION = "legislative-two-cycle-v2"
 MAJOR_PARTIES = {"Republican", "Democratic"}
 
 
@@ -96,6 +96,15 @@ def project_race(race, races):
     if len(candidates) == 1:
         result.update(bucket="unopposed", favoredCandidateId=candidates[0]["id"], preliminary=False,
                       reasons=["One candidate is listed in the official roster. This is a roster status, not a winner call."])
+        return result
+    major_candidates = [c for c in candidates if c.get("party") in MAJOR_PARTIES]
+    if len(major_candidates) == 1:
+        favored = major_candidates[0]
+        opponents = [c for c in candidates if c["id"] != favored["id"]]
+        result.update(bucket="no-contest", favoredCandidateId=favored["id"],
+                      underdogCandidateId=opponents[0]["id"] if len(opponents) == 1 else None,
+                      basis="single-major-party",
+                      reasons=[f"Working assumption: {favored['name']} is the only Republican or Democratic candidate. Independent and minor-party opposition is treated as no real contest."])
         return result
     if len(candidates) != 2:
         result["reasons"] = ["This multi-candidate field needs a separate assessment. You can set your own rating."]
