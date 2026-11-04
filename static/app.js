@@ -35,6 +35,7 @@
     overrides: readSaved('idaho-watch-ratings', {}), ratingFilter: 'all', ratingDrafts: {}, ratingOpen: new Set(),
     data: null, geometry: null, map: null, mapLayer: null, labelLayer: null,
     busy: false, geometryError: false, mapCategory: null,
+    detailOpen: false, listScroll: 0, seatFilter: 'all', filtersOpen: false,
   };
   const chamberName = (value) => ({senate:'Senate','house-a':'House A','house-b':'House B'}[value] || '');
   const partyName = (party, kind) => party || (kind === 'measure' ? 'Ballot response' : 'Nonpartisan');
@@ -100,6 +101,7 @@
     return (state.data?.races || []).filter(r => {
       if (r.category !== state.category) return false;
       if (rail && r.category === 'legislature' && r.chamber !== state.chamber) return false;
+      if (published && !rail && r.category === 'legislature' && state.seatFilter !== 'all' && r.chamber !== state.seatFilter) return false;
       if (state.watchOnly && !state.pinned.has(r.id)) return false;
       if (state.filter === 'contested' && (r.kind !== 'candidate' || r.candidates.length < 2)) return false;
       if (state.filter === 'reporting' && r.status !== 'reporting') return false;
@@ -124,20 +126,65 @@
     save('idaho-watch-pinned', [...state.pinned]);
     render();
   }
-  function selectRace(id, fit = false) {
+  function selectRace(id) {
     const race = state.data?.races.find(r => r.id === id);
     if (!race) return;
+    if (published) {
+      if (!state.detailOpen) state.listScroll = window.scrollY;
+      const fromList = !state.detailOpen || history.state?.electionRace === true;
+      history[state.detailOpen ? 'replaceState' : 'pushState']({electionRace:fromList}, '', `#race=${encodeURIComponent(id)}`);
+      state.detailOpen = true;
+    }
     state.selectedId = id;
     state.category = race.category;
     if (race.chamber) state.chamber = race.chamber;
     remember(); render();
-    if (fit && state.mapLayer && race.district) {
-      state.mapLayer.eachLayer(layer => {
-        if (Number(layer.feature?.properties?.DISTRICT) === race.district) state.map.fitBounds(layer.getBounds(), {padding:[35,70],maxZoom:11});
-      });
+    if (published && window.matchMedia('(max-width: 1000px)').matches) {
+      window.scrollTo(0,0);
+      $('#detail-panel h2')?.focus({preventScroll:true});
     }
   }
+  function zoomToDistrict() {
+    const district = selectedRace()?.district;
+    state.mapLayer?.eachLayer(layer => {
+      if (district && Number(layer.feature?.properties?.DISTRICT) === district) state.map.fitBounds(layer.getBounds(), {padding:[35,70],maxZoom:11});
+    });
+  }
+  function readRaceRoute() {
+    const id = new URLSearchParams(location.hash.slice(1)).get('race');
+    const race = state.data?.races.find(r => r.id === id);
+    state.detailOpen = !!race;
+    if (race) {
+      state.selectedId = race.id;
+      state.category = race.category;
+      if (race.chamber) state.chamber = race.chamber;
+    }
+  }
+  function returnToRaces() {
+    if (history.state?.electionRace) history.back();
+    else {
+      history.replaceState(null, '', location.pathname + location.search);
+      restoreRaceView();
+    }
+  }
+  function restoreRaceView() {
+    if (!published || !state.data) return;
+    readRaceRoute(); render();
+    requestAnimationFrame(() => {
+      if (state.detailOpen) {
+        window.scrollTo(0,0);
+        $('#detail-panel h2')?.focus({preventScroll:true});
+      } else {
+        window.scrollTo(0,state.listScroll);
+        $$('#race-cards [data-race]').find(b => b.dataset.race === state.selectedId)?.focus({preventScroll:true});
+      }
+    });
+  }
   function setCategory(category) {
+    if (published && state.detailOpen) {
+      state.detailOpen = false;
+      history.replaceState(null, '', location.pathname + location.search);
+    }
     state.category = category;
     state.query = ''; $('#search').value = '';
     const races = filteredRaces(true);
@@ -175,6 +222,15 @@
     $('#watch-count').textContent = state.pinned.size;
     $('#watch-filter').classList.toggle('active',state.watchOnly);
     $('#watch-filter').setAttribute('aria-pressed',String(state.watchOnly));
+    if (published) {
+      document.body.classList.toggle('race-open', state.detailOpen);
+      $('#filter-options').hidden = !state.filtersOpen;
+      $('#filters-toggle').setAttribute('aria-expanded', String(state.filtersOpen));
+      const count = Number(state.filter !== 'all') + Number(state.category === 'legislature' && state.ratingFilter !== 'all');
+      $('#filter-count').textContent = count ? `· ${count}` : '';
+      $('#rating-filter-label').hidden = state.category !== 'legislature';
+      $('#watch-count').hidden = !state.pinned.size;
+    }
   }
   function renderRail() {
     const races = filteredRaces(true);
@@ -207,6 +263,19 @@
     $('#list-button').setAttribute('aria-pressed',String(state.view === 'list'));
     $$('[data-year]').forEach(b => {b.classList.toggle('active',b.dataset.year === state.year); b.setAttribute('aria-pressed',String(b.dataset.year === state.year)); b.hidden = state.category !== 'legislature';});
     $('#map-context').textContent = state.category === 'legislature' ? chamberName(state.chamber) : selectedRace()?.shortName || 'County view';
+    if (published) {
+      document.body.classList.toggle('map-mode', state.view === 'map');
+      $('#public-seat-filter').hidden = state.category !== 'legislature';
+      $$('[data-seat]').forEach(b => {
+        const active = b.dataset.seat === (state.view === 'map' ? state.chamber : state.seatFilter);
+        b.classList.toggle('active',active); b.setAttribute('aria-pressed',String(active));
+        b.hidden = b.dataset.seat === 'all' && state.view === 'map';
+      });
+      $('#public-map-contest').hidden = state.view !== 'map' || state.category === 'legislature';
+      if (!$('#public-map-contest').hidden) {
+        $('#map-race-select').innerHTML = state.data.races.filter(r => r.category === state.category).map(r => `<option value="${esc(r.id)}" ${r.id === state.selectedId ? 'selected' : ''}>${esc(r.shortName || r.name)}</option>`).join('');
+      }
+    }
     if (state.view === 'map') renderMap(); else renderTable();
   }
   function renderTable() {
@@ -221,7 +290,8 @@
       if (state.sort === 'name') return a.name.localeCompare(b.name,undefined,{numeric:true});
       return defaultOrder(a,b);
     });
-    $('#table-description').textContent = `${races.length} ${state.category === 'legislature' ? 'races · all three seats' : 'contests'}`;
+    $('#table-description').textContent = `${races.length} ${state.category === 'legislature' ? `races · ${published && state.seatFilter !== 'all' ? chamberName(state.seatFilter) : 'all three seats'}` : 'contests'}`;
+    if (published) { renderRaceCards(races); return; }
     $('#table-body').innerHTML = races.length ? races.map(r => {
       const candidates = [...r.candidates].sort((a,b) => b.votes-a.votes);
       const historical = r.history?.candidates?.length ? [...r.history.candidates].sort((a,b)=>b.votes-a.votes)[0] : null;
@@ -229,6 +299,16 @@
       const knownFunds = r.candidates.filter(c=>c.finance?.raised != null).length;
       return `<tr data-race-row="${esc(r.id)}" class="${r.id === state.selectedId ? 'selected' : ''}"><td><button data-race="${esc(r.id)}" aria-pressed="${r.id === state.selectedId}">${esc(r.shortName || r.name)}</button><small>${r.category === 'legislature' ? esc(chamberName(r.chamber)) : esc(r.jurisdiction)}</small></td><td>${candidates.map(c => `<div class="table-candidate"><i class="party-dot" style="background:${optionColor(c,r.kind)}"></i>${esc(c.name)}${r.kind === 'candidate' ? ` <span class="muted" title="${esc(partyName(c.party,r.kind))}">(${esc(partyShort(c.party))})</span>` : ''}</div>`).join('')}</td><td class="rating-cell">${ratingBadge(r)}${ratingFor(r).bucket==='longshot' ? `<small>Favored: ${esc(r.candidates.find(c=>c.id===ratingFor(r).favoredCandidateId)?.name)}</small>` : ''}<small>${ratingFor(r).override ? 'Your rating' : r.projection?.preliminary && r.projection.bucket !== 'unrated' ? 'Preliminary model' : r.projection?.bucket === 'unopposed' ? 'Official roster' : 'No model assessment'}</small></td><td>${r.status === 'awaiting' ? '<span class="muted">Awaiting returns</span>' : `<strong>${num(r.votes)} votes</strong><small>${totalsMargin(candidates,r.votes) == null ? 'Uncontested / no margin' : `${totalsMargin(candidates,r.votes).toFixed(1)} pt margin`}</small>`}</td><td>${historical ? `${esc(historical.name)}<small>${r.history.year} · ${r.history.marginPoints == null ? 'Uncontested' : `${r.history.marginPoints.toFixed(1)} pt margin`}</small>` : '<span class="muted">Not comparable / unavailable</span>'}</td><td class="money">${funds == null ? '<span class="muted">Unavailable</span>' : `${moneyShort(funds)}<small>${knownFunds}/${r.candidates.length} candidates matched</small>`}</td></tr>`;
     }).join('') : '<tr><td colspan="6"><div class="empty-state">No races match these filters. <button data-clear-filters>Clear filters</button></div></td></tr>';
+  }
+  function renderRaceCards(races) {
+    $('#race-cards').innerHTML = races.length ? races.map(r => {
+      const candidates = [...r.candidates].sort((a,b) => b.votes-a.votes);
+      const historical = r.history?.candidates?.length ? [...r.history.candidates].sort((a,b)=>b.votes-a.votes)[0] : null;
+      const historyLabel = !historical ? 'History unavailable' : `${r.history.year}: ${r.history.marginPoints == null ? 'Unopposed' : `${partyShort(historical.party)} +${r.history.marginPoints.toFixed(1)}`}`;
+      const funds = raisedTotal(r), knownFunds = r.candidates.filter(c=>c.finance?.raised != null).length;
+      const title = r.category === 'legislature' ? `District ${r.district} · ${chamberName(r.chamber)}` : r.shortName || r.name;
+      return `<article class="race-card${r.id === state.selectedId ? ' selected' : ''}"><button class="race-card-open" data-race="${esc(r.id)}" aria-label="View ${esc(title)} details"><span class="race-card-heading"><span class="card-kicker">${r.category === 'legislature' ? 'IDAHO LEGISLATURE' : r.kind === 'measure' ? 'BALLOT MEASURE' : esc(r.jurisdiction)}</span><span class="card-title">${esc(title)}</span></span><span class="card-status${r.status === 'reporting' ? ' reporting' : ''}"><i class="status-dot${r.status === 'reporting' ? ' live' : ''}"></i>${r.status === 'reporting' ? `Unofficial · ${num(r.votes)} votes` : 'Awaiting returns'}</span><span class="card-candidates">${candidates.slice(0,3).map(c => `<span class="card-candidate"><i class="party-dot" style="background:${optionColor(c,r.kind)}"></i><span class="card-candidate-name">${esc(c.name)}</span>${r.kind === 'candidate' ? `<span class="card-party">${esc(partyShort(c.party))}</span>` : ''}${r.status === 'reporting' ? `<strong class="card-vote">${r.votes ? (c.votes/r.votes*100).toFixed(1) : '0.0'}%</strong>` : ''}</span>`).join('')}${candidates.length > 3 ? `<span class="card-more">+ ${candidates.length-3} more ${r.kind === 'measure' ? 'responses' : 'candidates'} in details</span>` : ''}</span>${r.category === 'legislature' ? `<span class="card-rating"><span>Pre-election</span>${ratingBadge(r,true)}</span>` : ''}<span class="card-context"><span>${esc(historyLabel)}</span>${r.kind === 'candidate' ? `<span>${funds == null ? 'Funds unavailable' : `${moneyShort(funds)} raised · ${knownFunds}/${r.candidates.length} matched`}</span>` : ''}</span><span class="card-action">Explore race <span aria-hidden="true">↗</span></span></button><button class="card-pin${state.pinned.has(r.id) ? ' pinned' : ''}" data-pin="${esc(r.id)}" aria-pressed="${state.pinned.has(r.id)}" aria-label="${state.pinned.has(r.id) ? 'Remove from' : 'Add to'} watchlist: ${esc(title)}">${state.pinned.has(r.id) ? '★' : '☆'}</button></article>`;
+    }).join('') : '<div class="empty-state"><h3>No matching races</h3><p>Try another name, district or filter.</p><button data-clear-filters>Clear filters</button></div>';
   }
   function renderDetail() {
     const race = selectedRace();
@@ -252,7 +332,8 @@
       return `<div class="candidate"><div class="candidate-head"><div class="candidate-initial" style="color:${color};background:${color}16">${esc(race.kind === 'measure' ? optionBadge(c,race) : c.name.split(/\s+/).map(n=>n[0]).filter(Boolean).slice(0,2).join(''))}</div><div><div class="candidate-name">${esc(c.name)}</div><div class="candidate-party">${esc(partyName(c.party,race.kind))}</div></div><div class="candidate-number">${awaiting ? '—' : `${share.toFixed(1)}%`}<small>${awaiting ? 'No returns yet' : `${num(c.votes)} votes`}</small></div></div>${awaiting ? '' : `<div class="vote-track"><div class="vote-fill" style="width:${share}%;background:${color}"></div></div>`}</div>`;
     }).join('');
     const reporting = race.precinctsParticipating == null ? 'Reporting count unavailable' : `${race.precinctsReporting == null ? '—' : num(race.precinctsReporting)} / ${num(race.precinctsParticipating)} precincts reporting`;
-    panel.innerHTML = `<div class="detail-heading"><div><div class="eyebrow">${esc(label)}</div><h2>${esc(title)}</h2></div><button class="detail-star${state.pinned.has(race.id) ? ' pinned' : ''}" data-pin="${esc(race.id)}" aria-label="${state.pinned.has(race.id) ? 'Remove from' : 'Add to'} watchlist">${state.pinned.has(race.id) ? '★' : '☆'}</button></div><p class="jurisdiction">${esc(race.jurisdiction)}${achd ? ' · Countywide electorate' : ''}</p>${otherSeats.length ? `<div class="seat-links">${otherSeats.map(r=>`<button data-race="${esc(r.id)}" class="${r.id===race.id?'active':''}">${esc(chamberName(r.chamber))}</button>`).join('')}</div>` : ''}<div class="result-status"><span class="status-dot${awaiting ? '' : ' live'}"></span>${awaiting ? '2026 · Awaiting official returns' : '2026 · Unofficial results'}</div>${candidateRows}<div class="reporting-line"><span>${esc(reporting)}</span><span>${awaiting ? '—' : `${num(race.votes)} votes`}</span></div>${achd ? '<p class="small-note">All Ada County voters may vote in these races. The zone identifies where the candidate resides.</p>' : ''}${historyHtml(race)}${race.history2022 ? historyHtml(race,race.history2022) : ''}${financeHtml(race)}<hr class="detail-divider"><label class="notes-label" for="race-notes">Your race notes <span id="note-status">Saved only in this browser</span></label><textarea id="race-notes" placeholder="Background, questions, things to watch…">${esc(state.notes[race.id] || '')}</textarea><div class="detail-sources">${link(state.data.meta.sourceUrl,'Official results')}${link('https://voteidaho.gov/idaho-general-election/','Ballot information')}</div>${projectionHtml(race)}`;
+    const navigation = published ? `<div class="detail-nav"><button data-back-races>← Back to ${state.view === 'map' ? 'map' : 'races'}</button><button data-detail-refresh ${state.busy ? 'disabled' : ''} aria-label="Load latest published results">↻ Refresh</button></div>` : '';
+    panel.innerHTML = `${navigation}<div class="detail-heading"><div><div class="eyebrow">${esc(label)}</div><h2 tabindex="-1">${esc(title)}</h2></div><button class="detail-star${state.pinned.has(race.id) ? ' pinned' : ''}" data-pin="${esc(race.id)}" aria-label="${state.pinned.has(race.id) ? 'Remove from' : 'Add to'} watchlist">${state.pinned.has(race.id) ? '★' : '☆'}</button></div><p class="jurisdiction">${esc(race.jurisdiction)}${achd ? ' · Countywide electorate' : ''}</p>${published ? '<button class="detail-map-link" data-show-map>View on map ↗</button>' : ''}${otherSeats.length ? `<div class="seat-links">${otherSeats.map(r=>`<button data-race="${esc(r.id)}" class="${r.id===race.id?'active':''}">${esc(chamberName(r.chamber))}</button>`).join('')}</div>` : ''}<div class="result-status"><span class="status-dot${awaiting ? '' : ' live'}"></span>${awaiting ? '2026 · Awaiting official returns' : '2026 · Unofficial results'}</div>${candidateRows}<div class="reporting-line"><span>${esc(reporting)}</span><span>${awaiting ? '—' : `${num(race.votes)} votes`}</span></div>${achd ? '<p class="small-note">All Ada County voters may vote in these races. The zone identifies where the candidate resides.</p>' : ''}${historyHtml(race)}${race.history2022 ? historyHtml(race,race.history2022) : ''}${financeHtml(race)}<hr class="detail-divider"><label class="notes-label" for="race-notes">Your race notes <span id="note-status">Saved only in this browser</span></label><textarea id="race-notes" placeholder="Background, questions, things to watch…">${esc(state.notes[race.id] || '')}</textarea><div class="detail-sources">${link(state.data.meta.sourceUrl,'Official results')}${link('https://voteidaho.gov/idaho-general-election/','Ballot information')}</div>${projectionHtml(race)}`;
     panel.dataset.currentRace = race.id;
     panel.scrollTop = oldId === race.id ? oldScroll : 0;
     if (notesFocused && oldId === race.id) { $('#race-notes').focus({preventScroll:true}); $('#race-notes').setSelectionRange(...noteSelection); }
@@ -315,7 +396,7 @@
     const known = candidates.filter(c=>c.finance && [c.finance.raised,c.finance.spent,c.finance.cashOnHand].some(v=>v!=null));
     let html = '<div class="section-label">CAMPAIGN FINANCE <span>Reported totals</span></div>';
     if (!known.length) return html + `<div class="finance-missing">Fundraising figures are not available for these candidates yet. Missing reports are not zero-dollar campaigns.</div><p class="finance-source">${link(state.data.meta.financeSourceUrl || 'https://sunshine.voteidaho.gov/','Idaho Sunshine')}</p>`;
-    html += `<table class="finance-table"><thead><tr><th>Candidate</th><th>Raised</th><th>Spent</th><th>Cash</th></tr></thead><tbody>${candidates.map(c=>`<tr><td>${c.finance?.sourceUrl ? link(c.finance.sourceUrl,c.name) : esc(c.name)}${c.finance?.reportEnd ? `<small>Through ${esc(dateLabel(c.finance.reportEnd))}</small>` : ''}</td><td>${money(c.finance?.raised)}</td><td>${money(c.finance?.spent)}</td><td>${money(c.finance?.cashOnHand)}</td></tr>`).join('')}</tbody></table>`;
+    html += `<table class="finance-table"><thead><tr><th>Candidate</th><th>Raised</th><th>Spent</th><th>Cash</th></tr></thead><tbody>${candidates.map(c=>`<tr><td>${c.finance?.sourceUrl ? link(c.finance.sourceUrl,c.name) : esc(c.name)}${c.finance?.reportEnd ? `<small>Through ${esc(dateLabel(c.finance.reportEnd))}</small>` : ''}</td><td data-label="Raised">${money(c.finance?.raised)}</td><td data-label="Spent">${money(c.finance?.spent)}</td><td data-label="Cash on hand">${money(c.finance?.cashOnHand)}</td></tr>`).join('')}</tbody></table>`;
     const notes = [...new Set(known.map(c=>c.finance.note).filter(Boolean))];
     const periods = [...new Set(known.filter(c=>c.finance.reportStart || c.finance.reportEnd).map(c=>`${dateLabel(c.finance.reportStart) || 'Start unavailable'} – ${dateLabel(c.finance.reportEnd) || 'End unavailable'}`))];
     html += `<p class="finance-source">${periods.length ? `Reporting period: ${esc(periods.join('; '))}. ` : ''}${esc(notes.join(' '))}</p><p class="finance-source">Retrieved ${esc(timeLabel(state.data.meta.financeUpdatedAt))} · ${link(state.data.meta.financeSourceUrl || 'https://sunshine.voteidaho.gov/','Sunshine portal')}</p>`;
@@ -358,6 +439,7 @@
     return {color:selected?'#163f3b':'#fffef8',weight:selected?2.8:1.1,fillColor:!top.length||tied?'#c9d1bf':optionColor(top[0],result.kind),fillOpacity:visible ? (top.length ? .58 + Math.min(.3,(top[0].votes/result.total)*.3) : .8) : .15,opacity:visible?1:.4};
   }
   function renderMap() {
+    if (published && state.detailOpen && window.matchMedia('(max-width: 1000px)').matches) return;
     if (!window.L) { $('#map').innerHTML='<div class="empty-state">The map library could not be loaded. The list view is available.</div>'; return; }
     if (!state.geometry) {$('#map').innerHTML=`<div class="empty-state">${state.geometryError ? 'Map boundaries could not be loaded. Use the list view while they are unavailable.' : 'Loading district boundaries…'}</div>`;return;}
     if (!state.map) {
@@ -430,7 +512,7 @@
   }
   async function fetchData(refresh=false) {
     if(state.busy) return;
-    state.busy=true;$('#refresh').disabled=true;
+    state.busy=true;$$('#refresh,[data-detail-refresh]').forEach(b=>b.disabled=true);
     try {
       const url = published ? `./data/results.json?v=${Date.now()}` : refresh ? '/api/refresh' : '/api/data';
       const response=await fetch(url,{method:refresh && !published?'POST':'GET',cache:'no-store'});
@@ -440,12 +522,15 @@
         r.candidates.forEach((c,index)=>{c.displayColor=measureColors[index%measureColors.length];});
         (r.countyResults||[]).forEach(county=>county.candidates.forEach(c=>{c.displayColor=r.candidates.find(option=>option.name===c.name)?.displayColor;}));
       });
-      state.data=data;render();
+      const firstLoad = !state.data;
+      state.data=data;
+      if (published && firstLoad) readRaceRoute();
+      render();
     } catch(error) {
       showNotice(`${state.data?'Keeping the last loaded snapshot. ':''}${error.message}`);
       $('#source-status').textContent='Unable to refresh';$('#status-dot').className='status-dot error';
-      if(!state.data) $('#race-list').innerHTML='<div class="empty-state"><p>Election data could not be loaded.</p><button data-retry>Try again</button></div>';
-    } finally {state.busy=false;$('#refresh').disabled=false;scheduleRefresh();}
+      if(!state.data) $(published ? '#race-cards' : '#race-list').innerHTML='<div class="empty-state"><p>Election data could not be loaded.</p><button data-retry>Try again</button></div>';
+    } finally {state.busy=false;$$('#refresh,[data-detail-refresh]').forEach(b=>b.disabled=false);scheduleRefresh();}
   }
   async function fetchGeometry() {
     try {
@@ -456,12 +541,23 @@
     } catch {state.geometryError=true;if(state.data&&state.view==='map')renderMap();}
   }
   document.addEventListener('click',e=>{
+    if (published && e.target.closest('[data-back-races]')) {returnToRaces();return;}
+    if (published && e.target.closest('[data-detail-refresh]')) {fetchData(true);return;}
+    if (published && e.target.closest('[data-show-map]')) {state.view='map';state.listScroll=0;returnToRaces();return;}
     const race=e.target.closest('[data-race], [data-race-row]');if(race){selectRace(race.dataset.race || race.dataset.raceRow);return;}
     const pin=e.target.closest('[data-pin]');if(pin){togglePin(pin.dataset.pin);return;}
     const category=e.target.closest('[data-category]');if(category){setCategory(category.dataset.category);return;}
+    const seat=e.target.closest('[data-seat]');
+    if (published && seat) {
+      if (state.view === 'map') {
+        state.chamber=seat.dataset.seat;
+        state.selectedId=state.data.races.find(r=>r.category==='legislature' && r.chamber===state.chamber && r.district===selectedRace()?.district)?.id || state.data.races.find(r=>r.category==='legislature' && r.chamber===state.chamber)?.id;
+      } else state.seatFilter=seat.dataset.seat;
+      render();return;
+    }
     const chamber=e.target.closest('[data-chamber]');if(chamber){const district=selectedRace()?.district;state.chamber=chamber.dataset.chamber;state.selectedId=state.data?.races.find(r=>r.category==='legislature'&&r.chamber===state.chamber&&r.district===district)?.id || filteredRaces(true)[0]?.id;remember();render();return;}
     const year=e.target.closest('[data-year]');if(year){state.year=year.dataset.year;remember();renderCanvas();return;}
-    if(e.target.closest('[data-clear-filters]')){state.query='';state.filter='all';state.ratingFilter='all';state.watchOnly=false;$('#search').value='';$('#race-filter').value='all';$('#rating-filter').value='all';render();return;}
+    if(e.target.closest('[data-clear-filters]')){state.query='';state.filter='all';state.ratingFilter='all';state.watchOnly=false;state.seatFilter='all';$('#search').value='';$('#race-filter').value='all';$('#rating-filter').value='all';render();return;}
     if(e.target.closest('[data-retry]'))fetchData(true);
   });
   $('#search').addEventListener('input',e=>{state.query=e.target.value;renderRail();renderCanvas();});
@@ -472,7 +568,7 @@
   $('#map-button').addEventListener('click',()=>{state.view='map';remember();renderCanvas();});
   $('#list-button').addEventListener('click',()=>{state.view='list';remember();renderCanvas();});
   $('#reset-map').addEventListener('click',fitMap);
-  $('#zoom-district').addEventListener('click',()=>{if(state.selectedId)selectRace(state.selectedId,true);});
+  $('#zoom-district').addEventListener('click',zoomToDistrict);
   $('#refresh').addEventListener('click',()=>fetchData(true));
   window.addEventListener('resize',()=>state.map?.invalidateSize());
   window.addEventListener('storage',e=>{
@@ -481,6 +577,14 @@
     }
   });
   if (published) {
+    $('[data-category="statewide"] .scope-label').textContent='Statewide';
+    $('[data-category="ada"] .scope-label').textContent='Ada & ACHD';
+    $('#watch-filter span:first-of-type').textContent='Saved';
+    $('#search').placeholder='Find your district, race or candidate';
+    $('#filter-options').appendChild($('#sort').closest('label'));
+    $('#filters-toggle').addEventListener('click',()=>{state.filtersOpen=!state.filtersOpen;renderHeader();});
+    $('#map-race-select').addEventListener('change',e=>{state.selectedId=e.target.value;remember();render();});
+    window.addEventListener('hashchange',restoreRaceView);
     $('#refresh').title = 'Load latest published results';
     $('#refresh').setAttribute('aria-label', 'Load latest published results');
   }

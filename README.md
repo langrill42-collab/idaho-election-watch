@@ -6,6 +6,10 @@ An election desk for November 3, 2026, available on this Mac and on GitHub Pages
 
 [Open Idaho Election Watch](https://langrill42-collab.github.io/idaho-election-watch/).
 
+The website is designed for phones. Its default list uses full-width race cards with candidates, party, pre-election rating, historical context, and reported fundraising. Search and the Saved, Filters, and Map/List controls stay within reach while scrolling. Senate, House A, and House B can be filtered separately. On wider screens, cards sit beside the race details.
+
+Tap a race to open a dedicated detail screen. **Back to races** restores your filters and list position; your browser's Back button works too. A race URL such as `#race=sen15` opens that race directly. Details include 2024 and 2022 results, candidate finance cards, browser-local notes, and rating factors at the bottom. **View on map** opens the selected race's geography. Statewide and Ada maps have a contest selector. These website styles are separate from the Mac app's layout.
+
 GitHub Pages serves the interface and public JSON snapshots. A GitHub Actions workflow fetches official results from GitHub's runners, beginning after **9 p.m. Mountain / 8 p.m. Pacific on November 3**. It is scheduled every five minutes, with a minimum five-minute gap after the previous successful retrieval. [GitHub can delay scheduled jobs](https://docs.github.com/en/actions/reference/workflows-and-actions/events-that-trigger-workflows#schedule), and publishing adds some delay. The source and retrieval timestamps identify the snapshot being shown. Sunshine totals refresh hourly.
 
 The website checks for published snapshots every five minutes after polls close. Its refresh button loads the latest published snapshot; it does not contact the SOS or start a new collection job. To request a collection and publication, run **Publish Election Watch** manually in the repository's Actions tab (the same poll-close and minimum-interval limits apply). Disable that workflow there when automatic updates are no longer needed.
@@ -91,4 +95,4 @@ Leaflet 1.9.4 is vendored locally; its license is in `static/vendor/LICENSE`. Th
 
 For the browser persistence regressions, run `node tests/browser_ratings.cjs` with Playwright available. `ELECTION_WATCH_URL` can select a local test server, and `ELECTION_WATCH_PLAYWRIGHT_PATH` can point to an existing Playwright installation. The tests use an isolated browser profile and do not modify the Mac app’s saved ratings.
 
-Run `node tests/browser_pages.cjs` against the static preview for project-path loading, maps, all coverage tabs, snapshot-only refresh, browser-local notes, and mobile layout. The same Playwright and URL environment variables apply.
+Run `node tests/browser_pages.cjs` against the static preview for phone navigation, shared race links, scroll restoration, maps, filters, all coverage tabs, reporting/error states, snapshot-only refresh, private notes/drafts, and widths from 320 to 1500 pixels. The same Playwright and URL environment variables apply. Set `ELECTION_WATCH_BROWSER=webkit` to run the same checks with WebKit.

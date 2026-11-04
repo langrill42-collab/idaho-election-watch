@@ -45,7 +45,8 @@ def export_site(output, snapshot):
     html = (ROOT / "static/index.html").read_text().replace('<html lang="en">', '<html lang="en" data-hosting="published">')
     html = html.replace("On this Mac", "Public election watch")
     html = html.replace("Connecting to Idaho Secretary of State…", "Loading published results…")
-    for asset in ("vendor/leaflet.css", "vendor/leaflet.js", "styles.css", "app.js"):
+    html = html.replace("</head>", '  <link rel="stylesheet" href="./static/published.css">\n</head>')
+    for asset in ("vendor/leaflet.css", "vendor/leaflet.js", "styles.css", "published.css", "app.js"):
         version = hashlib.sha256((ROOT / "static" / asset).read_bytes()).hexdigest()[:12]
         html = html.replace(f'="./static/{asset}"', f'="./static/{asset}?v={version}"')
     (output / "index.html").write_text(html)

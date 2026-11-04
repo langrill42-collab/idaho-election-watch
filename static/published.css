@@ -1,0 +1,210 @@
+/* The public site is a phone-first edition; the Mac window keeps styles.css. */
+body {font-size:16px; line-height:1.45;}
+button, a, input, select, textarea {touch-action:manipulation;}
+button {min-height:44px;}
+input, select, textarea {font-size:16px;}
+.masthead {min-height:0; padding:20px max(20px,calc((100vw - 1280px)/2));}
+.masthead h1 {font-size:30px;}
+.masthead .eyebrow {font-size:10px; letter-spacing:1.6px;}
+.brandmark {width:38px; height:38px;}
+.election-date {font-size:13px;}
+.local-label {font-size:11px;}
+.scope-nav {max-width:1280px; margin:auto; padding:0 20px; gap:22px; background:transparent; border:0; flex-wrap:wrap;}
+.scope-tab {font-size:14px; padding:14px 0 11px;}
+.tab-number {display:none;}
+.tab-count {font-size:10px;}
+.source-status {font-size:12px; min-width:0; gap:8px; padding:0;}
+.refresh-button {min-width:44px; min-height:44px; margin:0;}
+main {max-width:1280px; margin:auto; padding:0 20px;}
+.overview {display:flex; align-items:center; gap:24px; padding:16px 0;}
+.metric {min-height:0; gap:9px; border:0; padding:0;}
+.metric:nth-child(2), .metric:nth-child(4), .metric-sub {display:none;}
+.metric-value {font-size:24px; letter-spacing:-.6px;}
+.metric-label {font-size:12px; font-weight:500;}
+.workspace {overflow:visible; background:transparent; border:0; box-shadow:none;}
+.toolbar {display:grid; grid-template-columns:auto 1fr auto; gap:10px; padding:0 0 16px; border:0; align-items:center;}
+.search {grid-column:1/-1; max-width:none; min-width:0; width:100%; background:var(--panel); border:1px solid #d4dbd1; border-radius:10px; padding:0 14px; gap:10px;}
+.search svg {width:20px; height:20px; flex-shrink:0;}
+.search input {font-size:16px; padding:13px 0; min-width:0;}
+.filters-toggle, .watch-filter {display:inline-flex; justify-content:center; align-items:center; gap:5px; width:max-content; min-height:44px; padding:9px 12px; font-size:14px; border:1px solid #d4dbd1; background:var(--panel); border-radius:8px;}
+.filters-toggle[aria-expanded="true"] {border-color:var(--teal); background:#eaf0e7;}
+.watch-filter span:first-of-type {display:inline;}
+.watch-filter>span:last-child {font-size:11px;}
+.view-switch {margin:0; padding:3px; justify-self:end; background:#e3e8df; border-radius:8px;}
+.view-switch button {font-size:14px; min-height:38px; padding:8px 12px; border-radius:6px;}
+.filter-options {grid-column:1/-1; grid-row:3; display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:12px; padding:16px; background:var(--panel); border:1px solid var(--line); border-radius:10px;}
+.filter-options>label {display:grid; gap:6px; font-size:12px; color:var(--muted);}
+.filter-caption {display:block;}
+.filter-options select, #rating-filter {min-height:44px; max-width:none; width:100%; font-size:16px; color:var(--ink); border-radius:6px;}
+.explorer {display:grid; grid-template-columns:minmax(0,1fr) 380px; height:auto; min-height:0; gap:24px; align-items:start;}
+.race-rail {display:none;}
+.canvas {min-height:0;}
+.canvas-header {padding:4px 0 12px; min-height:0; border:0; gap:12px;}
+.canvas-header .eyebrow {display:none;}
+.canvas-header h2 {font-size:24px; font-weight:600; letter-spacing:-.5px;}
+.map-actions {flex-direction:row; gap:6px;}
+.text-button {font-size:12px; white-space:normal;}
+.seat-filter {display:flex; gap:6px; padding-bottom:12px;}
+.seat-filter button {flex:1; min-width:0; padding:8px 6px; border:1px solid var(--line); border-radius:7px; background:var(--panel); font-size:14px; color:var(--muted);}
+.seat-filter button.active {background:var(--teal); color:white; border-color:var(--teal);}
+.table-controls {padding:0 0 10px; border:0; font-size:12px; color:var(--muted);}
+.table-scroll {display:none;}
+.race-cards {display:grid; gap:12px;}
+.race-card {position:relative; min-width:0; border:1px solid #d8dfd3; border-radius:12px; background:var(--panel); overflow:hidden; box-shadow:0 2px 5px #18343703;}
+.race-card.selected {border-color:#9eb3a7;}
+.race-card-open {display:block; width:100%; padding:18px; text-align:left; border:0; background:transparent; border-radius:12px; line-height:1.45;}
+.race-card-open:hover {background:#f4f7f0;}
+.race-card-open:focus-visible {outline-offset:-3px;}
+.race-card-heading {display:block; padding-right:38px;}
+.card-kicker {display:block; font-size:10px; color:var(--muted); font-weight:600; letter-spacing:1.1px;}
+.card-title {display:block; margin-top:3px; font-size:21px; font-weight:650; letter-spacing:-.45px; line-height:1.25; overflow-wrap:anywhere;}
+.card-pin {position:absolute; top:8px; right:7px; width:44px; height:44px; border:0; border-radius:8px; background:transparent; font-size:26px; color:#809082;}
+.card-pin.pinned {color:#9f6c2c; background:#fff4dd;}
+.card-status {display:flex; gap:6px; align-items:center; margin-top:10px; color:var(--muted); font-size:12px;}
+.card-status.reporting {color:#3a6c50;}
+.card-candidates {display:grid; gap:8px; margin:16px 0;}
+.card-candidate {display:flex; align-items:baseline; gap:8px; font-size:16px;}
+.card-candidate .party-dot {width:7px; height:7px; align-self:center;}
+.card-candidate-name {min-width:0; overflow-wrap:anywhere;}
+.card-party {font-size:11px; color:var(--muted); font-weight:600; background:#eef1e9; border-radius:3px; padding:1px 4px;}
+.card-vote {margin-left:auto; font-size:14px; font-variant-numeric:tabular-nums; white-space:nowrap;}
+.card-more {font-size:13px; color:var(--muted); padding-left:15px;}
+.card-rating {display:flex; flex-wrap:wrap; align-items:center; gap:8px; margin-bottom:14px;}
+.card-rating>span:first-child {font-size:11px; color:var(--muted);}
+.card-rating .rating-badge {font-size:12px; font-weight:600; padding:3px 7px;}
+.card-context {display:flex; flex-wrap:wrap; column-gap:12px; row-gap:3px; justify-content:space-between; border-top:1px solid var(--line); padding-top:11px; font-size:11px; color:var(--muted);}
+.card-action {display:flex; align-items:center; justify-content:space-between; padding-top:9px; color:var(--teal); font-size:12px; font-weight:600;}
+.card-action>span {font-size:18px; line-height:1;}
+.detail-panel {position:sticky; top:16px; max-height:calc(100dvh - 32px); border:1px solid #d8dfd3; border-radius:12px; padding:20px; background:var(--panel); grid-column:auto; min-width:0;}
+.detail-nav {display:none;}
+.detail-heading h2 {font-size:28px; letter-spacing:-.7px; line-height:1.2;}
+.detail-heading .eyebrow {font-size:10px; line-height:1.6;}
+.detail-star {min-width:44px; font-size:23px;}
+.jurisdiction {font-size:13px; margin-bottom:10px;}
+.detail-map-link {border:0; background:none; color:var(--teal); text-decoration:underline; text-underline-offset:3px; font-size:14px; padding:8px 0; margin-bottom:8px;}
+.seat-links {gap:8px;}
+.seat-links button {flex:1; font-size:14px; padding:9px 12px;}
+.result-status {font-size:13px; margin:18px 0 16px;}
+.candidate {margin-bottom:20px;}
+.candidate-name {font-size:16px; font-weight:600;}
+.candidate-party {font-size:12px;}
+.candidate-initial {width:34px; height:34px; font-size:12px;}
+.candidate-number {font-size:17px;}
+.candidate-number small {font-size:11px;}
+.vote-track {height:6px; margin-top:11px;}
+.reporting-line {font-size:12px; gap:12px;}
+.history-card {padding:16px; margin-top:20px; border-radius:9px;}
+.history-card .section-label {font-size:11px;}
+.history-person {font-size:14px; margin-bottom:10px; align-items:baseline;}
+.history-person strong {font-size:13px;}
+.history-caption {font-size:12px;}
+.history-empty {font-size:13px; padding:16px;}
+.section-label {font-size:11px; margin-top:24px;}
+.section-label span {font-size:11px;}
+.finance-table {display:block; max-width:none; font-size:14px;}
+.finance-table thead {position:absolute; width:1px; height:1px; overflow:hidden; clip-path:inset(50%);}
+.finance-table tbody {display:grid; gap:10px;}
+.finance-table tr {display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); padding:13px; border:1px solid var(--line); border-radius:8px; background:#f8f9f3;}
+.finance-table td {border:0; padding:8px 0 0; text-align:left; min-width:0; font-size:13px;}
+.finance-table td:first-child {grid-column:1/-1; max-width:none; padding:0; font-size:14px;}
+.finance-table td[data-label]::before {content:attr(data-label); display:block; font-size:11px; color:var(--muted); margin-bottom:3px;}
+.finance-source, .finance-missing, .small-note {font-size:12px; line-height:1.65;}
+.finance-table td small {font-size:11px;}
+.notes-label {font-size:13px;}
+.notes-label span {font-size:10px;}
+textarea {font-size:16px; min-height:90px; padding:12px;}
+.detail-sources {font-size:12px; gap:18px;}
+.detail-sources a {padding:9px 0;}
+.projection-card {padding:16px; border-radius:9px;}
+.projection-card>.section-label {margin-top:0;}
+.projection-card>.rating-badge {font-size:16px;}
+.rating-reasons {font-size:14px; line-height:1.65; padding-left:19px;}
+.rating-caveat, .model-method p {font-size:12px; line-height:1.7;}
+.model-method summary, .rating-editor summary {font-size:14px; padding:13px 0;}
+.model-method>a {font-size:12px;}
+#rating-form label {font-size:13px;}
+#rating-form select, #rating-reason {font-size:16px; min-height:44px;}
+.rating-actions button {font-size:14px; padding:10px 12px;}
+#rating-save-status {font-size:12px;}
+.map-view {border:1px solid var(--line); border-radius:10px; overflow:hidden; min-height:0;}
+.map-controls {position:static; padding:10px; display:block;}
+.year-switch {display:flex; width:100%; box-shadow:none;}
+.year-switch button {flex:1; font-size:12px; padding:8px 5px; min-height:44px;}
+#map-context {display:none;}
+#map {height:470px; min-height:350px; flex:none;}
+.map-legend, .map-footnote {font-size:11px; padding:12px; line-height:1.6;}
+.legend-heading {font-size:10px;}
+.rating-scale {font-size:10px; gap:8px;}
+.leaflet-control-zoom a {width:44px!important; height:44px!important; line-height:44px!important;}
+.map-contest {display:grid; gap:6px; padding:0 0 12px; font-size:12px; color:var(--muted);}
+.map-contest select {width:100%; min-height:46px; font-size:16px; color:var(--ink);}
+.notice {font-size:14px;}
+.empty-state {padding:24px; font-size:15px; background:var(--panel); border:1px solid var(--line); border-radius:10px;}
+.empty-state button {font-size:14px;}
+.app-footer {padding:20px 0 max(24px,env(safe-area-inset-bottom)); font-size:11px; flex-wrap:wrap; gap:7px 16px; line-height:1.7;}
+.app-footer>span:nth-child(2) {flex-basis:100%; order:2;}
+
+@media (min-width:1200px) {
+  .race-cards {grid-template-columns:repeat(2,minmax(0,1fr));}
+  .race-card-open {height:100%; display:flex; flex-direction:column; align-items:stretch;}
+  .card-title {font-size:20px;}
+  .card-candidates {flex:1; align-content:start;}
+}
+
+@media (max-width:1000px) {
+  .masthead {padding:16px 18px;}
+  .brand {gap:10px;}
+  .brandmark {display:none;}
+  .masthead h1 {font-size:27px; margin:0;}
+  .masthead .eyebrow {display:none;}
+  .election-date {font-size:11px;}
+  .local-label {display:none;}
+  .scope-nav {display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); padding:0 16px; gap:0; background:var(--panel); border-bottom:1px solid var(--line);}
+  .scope-tab {font-size:14px; white-space:nowrap; text-align:center; min-height:50px; padding:12px 3px;}
+  .tab-count {display:none;}
+  .source-status {grid-column:1/-1; width:100%; margin:0; padding:0; font-size:11px; border-top:1px solid var(--line);}
+  .source-status .refresh-button {margin-left:auto; min-height:44px;}
+  main {padding:14px 16px 0; max-width:720px;}
+  .overview {display:none;}
+  .metric-value {font-size:23px;}
+  .metric-label {font-size:12px;}
+  .toolbar {position:sticky; top:0; z-index:700; gap:8px; padding:10px 0 15px; background:var(--paper);}
+  .filters-toggle, .watch-filter {font-size:13px; padding:8px 10px;}
+  .view-switch button {font-size:13px; padding:7px 9px;}
+  .filter-options {grid-template-columns:repeat(2,minmax(0,1fr)); padding:12px;}
+  .filter-options>label:last-child {grid-column:1/-1;}
+  .explorer {display:block;}
+  body:not(.map-mode) .canvas-header {display:none;}
+  .canvas-header h2 {font-size:22px;}
+  .seat-filter button {font-size:13px;}
+  .table-controls {font-size:12px; flex-direction:row;}
+  .race-card-open {padding:18px;}
+  .detail-panel {display:none;}
+  body.race-open .masthead, body.race-open .scope-nav, body.race-open .overview, body.race-open .toolbar, body.race-open .canvas {display:none;}
+  body.race-open main {padding:0;}
+  body.race-open .detail-panel {display:block; position:static; max-height:none; overflow:visible; border:0; border-radius:0; padding:0 20px 24px; min-height:100dvh;}
+  body.race-open .app-footer {padding:18px 20px max(24px,env(safe-area-inset-bottom));}
+  body.race-open #notice:not([hidden]) {margin:12px;}
+  .detail-nav {display:flex; justify-content:space-between; gap:12px; align-items:center; position:sticky; top:0; z-index:600; background:var(--panel); padding:8px 16px; margin:0 -20px 22px; border-bottom:1px solid var(--line);}
+  .detail-nav button {font-size:14px; font-weight:600; padding:10px 5px; border:0; background:transparent; color:var(--teal);}
+  .detail-nav button:last-child {font-weight:400;}
+  .detail-heading h2 {font-size:30px;}
+  .detail-panel .finance-table {max-width:none;}
+  .detail-heading .eyebrow {font-size:10px;}
+  #map {height:52dvh; min-height:340px; max-height:560px;}
+}
+
+@media (max-width:360px) {
+  .masthead {padding:16px;}
+  .masthead h1 {font-size:24px;}
+  .election-date {max-width:64px;}
+  .scope-tab {font-size:12px;}
+  .metric-label {font-size:11px;}
+  .filters-toggle, .watch-filter {padding:8px;}
+  .view-switch button {padding:7px;}
+  .card-title {font-size:20px;}
+  .card-context {font-size:11px;}
+  .race-card-open {padding:15px;}
+  .finance-table tr {padding:10px;}
+  .finance-table td {font-size:12px;}
+}
