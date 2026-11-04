@@ -12,6 +12,17 @@ from election_data import DATA, ROOT, ElectionStore, read_json
 
 PORT = 8766
 ORIGIN = f"http://127.0.0.1:{PORT}"
+AUTO_REFRESH_INTERVAL_SECONDS = 300
+# SOS starts publishing after the last Idaho polls close: 9 p.m. MT / 8 p.m. PT.
+AUTO_REFRESH_STARTS_AT = datetime.fromisoformat("2026-11-03T21:00:00-07:00")
+
+
+def scheduled_snapshot(data):
+    if not data:
+        return data
+    return {**data, "meta": {**data["meta"],
+                            "autoRefreshIntervalSeconds": AUTO_REFRESH_INTERVAL_SECONDS,
+                            "autoRefreshStartsAt": AUTO_REFRESH_STARTS_AT.isoformat()}}
 
 
 def geometry():
@@ -38,8 +49,8 @@ def create_server(store):
             if route == "/api/health":
                 return self.send({"application": "idaho-election-watch", "version": "0.1.0"})
             if route == "/api/data":
-                data = store.get()
-                return self.send(data if data else {"error": "Official data is loading. Try refresh in a moment."}, 200 if data else 503)
+                data = scheduled_snapshot(store.get())
+                return self.send(data if data else {"error": "No saved results are available. Use Refresh to load them manually."}, 200 if data else 503)
             if route == "/api/geometry":
                 return self.send(geo)
             static = ROOT / "static"
@@ -61,7 +72,7 @@ def create_server(store):
             if urlsplit(self.path).path != "/api/refresh":
                 return self.send({"error": "Not found"}, 404)
             try:
-                data = store.refresh()
+                data = scheduled_snapshot(store.refresh())
                 return self.send(data if data else {"error": "No official results snapshot is available yet."}, 200 if data else 503)
             except Exception as error:
                 return self.send({"error": str(error)}, 503)
@@ -75,9 +86,13 @@ def create_server(store):
 
 def update_loop(store, stop):
     while not stop.is_set():
+        now = datetime.now(timezone.utc)
+        if now < AUTO_REFRESH_STARTS_AT:
+            stop.wait(min(AUTO_REFRESH_INTERVAL_SECONDS, (AUTO_REFRESH_STARTS_AT - now).total_seconds()))
+            continue
         try:
             fetched = store.finance.get("fetchedAt")
-            age = (datetime.now(timezone.utc) - datetime.fromisoformat(fetched)).total_seconds() if fetched else float("inf")
+            age = (now - datetime.fromisoformat(fetched)).total_seconds() if fetched else float("inf")
             if age > 3600:
                 try:
                     store.refresh_finance()
@@ -86,7 +101,7 @@ def update_loop(store, stop):
             store.refresh()
         except Exception as error:
             print(f"Results update unavailable: {error}", flush=True)
-        stop.wait(60)
+        stop.wait(AUTO_REFRESH_INTERVAL_SECONDS)
 
 
 def main():

@@ -21,6 +21,7 @@
   function readSaved(key, fallback) { try { return JSON.parse(localStorage.getItem(key)) ?? fallback; } catch { return fallback; } }
   function save(key, value) { try { localStorage.setItem(key, JSON.stringify(value)); return true; } catch { showNotice('Your changes could not be saved on this Mac.'); return false; } }
   const saved = readSaved('idaho-watch-view', {});
+  let refreshTimer;
   const state = {
     category: ['legislature','statewide','ada'].includes(saved.category) ? saved.category : 'legislature',
     chamber: ['senate','house-a','house-b'].includes(saved.chamber) ? saved.chamber : 'senate',
@@ -163,7 +164,11 @@
     const m = state.data.meta;
     $('#source-status').textContent = m.fetchError ? 'Saved data · refresh unavailable' : `Source updated ${timeLabel(m.sourceUpdatedAt)}`;
     $('#status-dot').className = `status-dot${m.fetchError ? ' error' : reporting ? ' live' : ''}`;
-    $('#fetch-time').textContent = `Retrieved ${timeLabel(m.fetchedAt)} · Refreshes every minute`;
+    const startsAt = new Date(m.autoRefreshStartsAt);
+    const refreshStatus = Date.now() < startsAt.getTime()
+      ? `Auto-refresh paused until ${startsAt.toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit',timeZone:'America/Boise',timeZoneName:'short'})}`
+      : `Auto-refresh every ${(m.autoRefreshIntervalSeconds || 300) / 60} minutes`;
+    $('#fetch-time').textContent = `Retrieved ${timeLabel(m.fetchedAt)} · ${refreshStatus} · Manual refresh available`;
     showNotice(m.fetchError ? `Showing the last available official snapshot. ${m.fetchError}` : '');
     $('#rating-filter').hidden = state.category !== 'legislature';
     $('#watch-count').textContent = state.pinned.size;
@@ -246,7 +251,7 @@
       return `<div class="candidate"><div class="candidate-head"><div class="candidate-initial" style="color:${color};background:${color}16">${esc(race.kind === 'measure' ? optionBadge(c,race) : c.name.split(/\s+/).map(n=>n[0]).filter(Boolean).slice(0,2).join(''))}</div><div><div class="candidate-name">${esc(c.name)}</div><div class="candidate-party">${esc(partyName(c.party,race.kind))}</div></div><div class="candidate-number">${awaiting ? '—' : `${share.toFixed(1)}%`}<small>${awaiting ? 'No returns yet' : `${num(c.votes)} votes`}</small></div></div>${awaiting ? '' : `<div class="vote-track"><div class="vote-fill" style="width:${share}%;background:${color}"></div></div>`}</div>`;
     }).join('');
     const reporting = race.precinctsParticipating == null ? 'Reporting count unavailable' : `${race.precinctsReporting == null ? '—' : num(race.precinctsReporting)} / ${num(race.precinctsParticipating)} precincts reporting`;
-    panel.innerHTML = `<div class="detail-heading"><div><div class="eyebrow">${esc(label)}</div><h2>${esc(title)}</h2></div><button class="detail-star${state.pinned.has(race.id) ? ' pinned' : ''}" data-pin="${esc(race.id)}" aria-label="${state.pinned.has(race.id) ? 'Remove from' : 'Add to'} watchlist">${state.pinned.has(race.id) ? '★' : '☆'}</button></div><p class="jurisdiction">${esc(race.jurisdiction)}${achd ? ' · Countywide electorate' : ''}</p>${otherSeats.length ? `<div class="seat-links">${otherSeats.map(r=>`<button data-race="${esc(r.id)}" class="${r.id===race.id?'active':''}">${esc(chamberName(r.chamber))}</button>`).join('')}</div>` : ''}<div class="result-status"><span class="status-dot${awaiting ? '' : ' live'}"></span>${awaiting ? '2026 · Awaiting official returns' : '2026 · Unofficial results'}</div>${candidateRows}<div class="reporting-line"><span>${esc(reporting)}</span><span>${awaiting ? '—' : `${num(race.votes)} votes`}</span></div>${achd ? '<p class="small-note">All Ada County voters may vote in these races. The zone identifies where the candidate resides.</p>' : ''}${projectionHtml(race)}${historyHtml(race)}${race.history2022 ? historyHtml(race,race.history2022) : ''}${financeHtml(race)}<hr class="detail-divider"><label class="notes-label" for="race-notes">Your race notes <span id="note-status">Saved only on this Mac</span></label><textarea id="race-notes" placeholder="Background, questions, things to watch…">${esc(state.notes[race.id] || '')}</textarea><div class="detail-sources">${link(state.data.meta.sourceUrl,'Official results')}${link('https://voteidaho.gov/idaho-general-election/','Ballot information')}</div>`;
+    panel.innerHTML = `<div class="detail-heading"><div><div class="eyebrow">${esc(label)}</div><h2>${esc(title)}</h2></div><button class="detail-star${state.pinned.has(race.id) ? ' pinned' : ''}" data-pin="${esc(race.id)}" aria-label="${state.pinned.has(race.id) ? 'Remove from' : 'Add to'} watchlist">${state.pinned.has(race.id) ? '★' : '☆'}</button></div><p class="jurisdiction">${esc(race.jurisdiction)}${achd ? ' · Countywide electorate' : ''}</p>${otherSeats.length ? `<div class="seat-links">${otherSeats.map(r=>`<button data-race="${esc(r.id)}" class="${r.id===race.id?'active':''}">${esc(chamberName(r.chamber))}</button>`).join('')}</div>` : ''}<div class="result-status"><span class="status-dot${awaiting ? '' : ' live'}"></span>${awaiting ? '2026 · Awaiting official returns' : '2026 · Unofficial results'}</div>${candidateRows}<div class="reporting-line"><span>${esc(reporting)}</span><span>${awaiting ? '—' : `${num(race.votes)} votes`}</span></div>${achd ? '<p class="small-note">All Ada County voters may vote in these races. The zone identifies where the candidate resides.</p>' : ''}${historyHtml(race)}${race.history2022 ? historyHtml(race,race.history2022) : ''}${financeHtml(race)}<hr class="detail-divider"><label class="notes-label" for="race-notes">Your race notes <span id="note-status">Saved only on this Mac</span></label><textarea id="race-notes" placeholder="Background, questions, things to watch…">${esc(state.notes[race.id] || '')}</textarea><div class="detail-sources">${link(state.data.meta.sourceUrl,'Official results')}${link('https://voteidaho.gov/idaho-general-election/','Ballot information')}</div>${projectionHtml(race)}`;
     panel.dataset.currentRace = race.id;
     panel.scrollTop = oldId === race.id ? oldScroll : 0;
     if (notesFocused && oldId === race.id) { $('#race-notes').focus({preventScroll:true}); $('#race-notes').setSelectionRange(...noteSelection); }
@@ -415,6 +420,13 @@
     const bounds=state.mapLayer.getBounds();
     if(bounds.isValid()) state.map.fitBounds(bounds,{paddingTopLeft:[22,50],paddingBottomRight:[25,22],maxZoom:state.category==='ada'?9:7});
   }
+  function scheduleRefresh() {
+    clearTimeout(refreshTimer);
+    const startsAt = new Date(state.data?.meta.autoRefreshStartsAt || 0).getTime();
+    const interval = (state.data?.meta.autoRefreshIntervalSeconds || 300) * 1000;
+    const delay = startsAt > Date.now() ? startsAt - Date.now() : interval;
+    refreshTimer = setTimeout(()=>fetchData(), Math.min(delay, 2147483647));
+  }
   async function fetchData(refresh=false) {
     if(state.busy) return;
     state.busy=true;$('#refresh').disabled=true;
@@ -431,7 +443,7 @@
       showNotice(`${state.data?'Keeping the last loaded snapshot. ':''}${error.message}`);
       $('#source-status').textContent='Unable to refresh';$('#status-dot').className='status-dot error';
       if(!state.data) $('#race-list').innerHTML='<div class="empty-state"><p>Election data could not be loaded.</p><button data-retry>Try again</button></div>';
-    } finally {state.busy=false;$('#refresh').disabled=false;}
+    } finally {state.busy=false;$('#refresh').disabled=false;scheduleRefresh();}
   }
   async function fetchGeometry() {
     try {
@@ -467,5 +479,4 @@
     }
   });
   fetchData();fetchGeometry();
-  setInterval(()=>fetchData(),60000);
 })();
