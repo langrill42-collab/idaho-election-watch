@@ -24,7 +24,7 @@
   const state = {
     category: ['legislature','statewide','ada'].includes(saved.category) ? saved.category : 'legislature',
     chamber: ['senate','house-a','house-b'].includes(saved.chamber) ? saved.chamber : 'senate',
-    view: saved.view === 'list' ? 'list' : 'map',
+    view: 'list',
     year: saved.ratingsAvailable && ['ratings','2024','2026'].includes(saved.year) ? saved.year : 'ratings',
     selectedId: saved.selectedId || 'sen15',
     query: '', filter: 'all', watchOnly: false, sort: 'district',
@@ -60,7 +60,7 @@
   const optionColor = (candidate, kind) => kind !== 'measure' ? partyColor(candidate.party) : supportingOption(candidate.name) ? '#4f8275' : opposingOption(candidate.name) ? '#ae8355' : candidate.displayColor || measureColors[0];
   const optionBadge = (candidate, race) => supportingOption(candidate.name) ? '+' : opposingOption(candidate.name) ? '−' : String(race.candidates.indexOf(candidate) + 1);
   const categoryTitle = () => ({legislature:'The Idaho Legislature',statewide:'Statewide & ballot measures',ada:'Ada County & ACHD'}[state.category]);
-  function remember() { save('idaho-watch-view', {...Object.fromEntries(['category','chamber','view','year','selectedId'].map(k => [k,state[k]])),ratingsAvailable:true}); }
+  function remember() { save('idaho-watch-view', {...Object.fromEntries(['category','chamber','year','selectedId'].map(k => [k,state[k]])),ratingsAvailable:true}); }
   const ratingNames = {'toss-up':'Toss-up',likely:'Likely','very-likely':'Very likely',longshot:'Longshot','no-contest':'No real contest',unopposed:'Unopposed',unrated:'Unrated'};
   const ratingStrength = {'toss-up':0,likely:1,'very-likely':2,longshot:3,'no-contest':4,unopposed:5,unrated:6};
   const ratingOpacity = {likely:.45,'very-likely':.65,longshot:.82,'no-contest':1,unopposed:.6};
@@ -221,7 +221,7 @@
       const historical = r.history?.candidates?.length ? [...r.history.candidates].sort((a,b)=>b.votes-a.votes)[0] : null;
       const funds = raisedTotal(r);
       const knownFunds = r.candidates.filter(c=>c.finance?.raised != null).length;
-      return `<tr class="${r.id === state.selectedId ? 'selected' : ''}"><td><button data-race="${esc(r.id)}">${esc(r.shortName || r.name)}</button><small>${r.category === 'legislature' ? esc(chamberName(r.chamber)) : esc(r.jurisdiction)}</small></td><td>${candidates.map(c => `<div class="table-candidate"><i class="party-dot" style="background:${optionColor(c,r.kind)}"></i>${esc(c.name)}${r.kind === 'candidate' ? ` <span class="muted" title="${esc(partyName(c.party,r.kind))}">(${esc(partyShort(c.party))})</span>` : ''}</div>`).join('')}</td><td class="rating-cell">${ratingBadge(r)}${ratingFor(r).bucket==='longshot' ? `<small>Favored: ${esc(r.candidates.find(c=>c.id===ratingFor(r).favoredCandidateId)?.name)}</small>` : ''}<small>${ratingFor(r).override ? 'Your rating' : r.projection?.preliminary && r.projection.bucket !== 'unrated' ? 'Preliminary model' : r.projection?.bucket === 'unopposed' ? 'Official roster' : 'No model assessment'}</small></td><td>${r.status === 'awaiting' ? '<span class="muted">Awaiting returns</span>' : `<strong>${num(r.votes)} votes</strong><small>${totalsMargin(candidates,r.votes) == null ? 'Uncontested / no margin' : `${totalsMargin(candidates,r.votes).toFixed(1)} pt margin`}</small>`}</td><td>${historical ? `${esc(historical.name)}<small>${r.history.year} · ${r.history.marginPoints == null ? 'Uncontested' : `${r.history.marginPoints.toFixed(1)} pt margin`}</small>` : '<span class="muted">Not comparable / unavailable</span>'}</td><td class="money">${funds == null ? '<span class="muted">Unavailable</span>' : `${moneyShort(funds)}<small>${knownFunds}/${r.candidates.length} candidates matched</small>`}</td></tr>`;
+      return `<tr data-race-row="${esc(r.id)}" class="${r.id === state.selectedId ? 'selected' : ''}"><td><button data-race="${esc(r.id)}" aria-pressed="${r.id === state.selectedId}">${esc(r.shortName || r.name)}</button><small>${r.category === 'legislature' ? esc(chamberName(r.chamber)) : esc(r.jurisdiction)}</small></td><td>${candidates.map(c => `<div class="table-candidate"><i class="party-dot" style="background:${optionColor(c,r.kind)}"></i>${esc(c.name)}${r.kind === 'candidate' ? ` <span class="muted" title="${esc(partyName(c.party,r.kind))}">(${esc(partyShort(c.party))})</span>` : ''}</div>`).join('')}</td><td class="rating-cell">${ratingBadge(r)}${ratingFor(r).bucket==='longshot' ? `<small>Favored: ${esc(r.candidates.find(c=>c.id===ratingFor(r).favoredCandidateId)?.name)}</small>` : ''}<small>${ratingFor(r).override ? 'Your rating' : r.projection?.preliminary && r.projection.bucket !== 'unrated' ? 'Preliminary model' : r.projection?.bucket === 'unopposed' ? 'Official roster' : 'No model assessment'}</small></td><td>${r.status === 'awaiting' ? '<span class="muted">Awaiting returns</span>' : `<strong>${num(r.votes)} votes</strong><small>${totalsMargin(candidates,r.votes) == null ? 'Uncontested / no margin' : `${totalsMargin(candidates,r.votes).toFixed(1)} pt margin`}</small>`}</td><td>${historical ? `${esc(historical.name)}<small>${r.history.year} · ${r.history.marginPoints == null ? 'Uncontested' : `${r.history.marginPoints.toFixed(1)} pt margin`}</small>` : '<span class="muted">Not comparable / unavailable</span>'}</td><td class="money">${funds == null ? '<span class="muted">Unavailable</span>' : `${moneyShort(funds)}<small>${knownFunds}/${r.candidates.length} candidates matched</small>`}</td></tr>`;
     }).join('') : '<tr><td colspan="6"><div class="empty-state">No races match these filters. <button data-clear-filters>Clear filters</button></div></td></tr>';
   }
   function renderDetail() {
@@ -442,7 +442,7 @@
     } catch {state.geometryError=true;if(state.data&&state.view==='map')renderMap();}
   }
   document.addEventListener('click',e=>{
-    const race=e.target.closest('[data-race]');if(race){selectRace(race.dataset.race);return;}
+    const race=e.target.closest('[data-race], [data-race-row]');if(race){selectRace(race.dataset.race || race.dataset.raceRow);return;}
     const pin=e.target.closest('[data-pin]');if(pin){togglePin(pin.dataset.pin);return;}
     const category=e.target.closest('[data-category]');if(category){setCategory(category.dataset.category);return;}
     const chamber=e.target.closest('[data-chamber]');if(chamber){const district=selectedRace()?.district;state.chamber=chamber.dataset.chamber;state.selectedId=state.data?.races.find(r=>r.category==='legislature'&&r.chamber===state.chamber&&r.district===district)?.id || filteredRaces(true)[0]?.id;remember();render();return;}

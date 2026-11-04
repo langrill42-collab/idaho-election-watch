@@ -12,8 +12,8 @@ Then open <http://127.0.0.1:8766>. Python dependencies are pinned in `uv.lock`.
 
 ## Using the desk
 
-- Switch between Map and List without losing the selected race. Senate, House A and House B share the same legislative geography.
-- The legislative map opens with **Race ratings**, colored by the favored party and rating strength. Choose **2024 baseline** for historical winners or **2026 returns** for current reported leaders. Use **Zoom to district** to inspect dense urban districts.
+- The app opens in **List** view. Click an office name or anywhere in its row to load the race details on the right; the office button also supports keyboard selection. Switch between Map and List without losing the selected race. Senate, House A and House B share the same legislative geography.
+- When you switch to Map, the legislative map uses **Race ratings** by default, colored by the favored party and rating strength. Choose **2024 baseline** for historical winners or **2026 returns** for current reported leaders. Use **Zoom to district** to inspect dense urban districts.
 - The list includes all three legislative seats and can sort by historical/current margin or reported fundraising. Race-level fundraising sums identify how many candidates have matched figures.
 - Filter by rating or sort the list by competitiveness. In a race’s **Pre-election rating** card, use **Set your rating** to select a bucket and favored candidate and record a reason. Your override is marked with an asterisk; the original model assessment remains visible. **Use model rating** removes the override. Drafts survive automatic refreshes; saved overrides persist across relaunches in the same native window/browser profile.
 - Stars and notes persist locally in the current window/browser profile. The native Mac window keeps its profile in `data/window/`; a separate browser has its own notes.
