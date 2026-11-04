@@ -1,0 +1,291 @@
+{
+  "sourceUrl": "https://archive.sos.idaho.gov/elections/data/results/2022/2022_General_Canvass.zip",
+  "archiveSha256": "27aac1e2c391b2d50541bc231550c48c101385714eeda53b92bd4fd6e83d5a69",
+  "legislativeRaces": 105,
+  "candidates": 169,
+  "candidateCountDistribution": {
+    "2": 47,
+    "1": 50,
+    "3": 7,
+    "4": 1
+  },
+  "validation": "Every candidate total independently matches sum of precinct rows, reported precinct workbook total, sum of county columns, and county workbook total. All105labels exactly match2024history keys. No overvotes or undervotes present in extracted candidatecolumns.",
+  "sourceAnomalies": [
+    {
+      "race": "State Senator District 1",
+      "issue": "Candidate name display differs between county and precinct workbook; preserved county spelling",
+      "countyName": "Steven R Johnson",
+      "precinctName": "Steven R Johnson (W/I)"
+    },
+    {
+      "race": "State Representative District 2 Seat B",
+      "issue": "Candidate name display differs between county and precinct workbook; preserved county spelling",
+      "countyName": "Jennifer Ann Luoma",
+      "precinctName": "JenniferAnn Luoma"
+    },
+    {
+      "race": "State Senator District 3",
+      "issue": "Candidate name display differs between county and precinct workbook; preserved county spelling",
+      "countyName": "Doug \"Doug-O\" Okuniewicz",
+      "precinctName": "Doug \"Doug O\" Okuniewicz"
+    },
+    {
+      "race": "State Representative District 8 Seat B",
+      "issue": "Candidate name display differs between county and precinct workbook; preserved county spelling",
+      "countyName": "Megan Blanksma",
+      "precinctName": "Megan C. Blanksma"
+    },
+    {
+      "race": "State Senator District 15",
+      "issue": "Candidate name display differs between county and precinct workbook; preserved county spelling",
+      "countyName": "Sarah A. Clendenon",
+      "precinctName": "Sarah A, Clendenon"
+    },
+    {
+      "race": "State Representative District 18 Seat B",
+      "row": 242,
+      "issue": "County workbook omitted candidate party prefix; supplied from corresponding precinct workbook header",
+      "name": "Gregory T Holtz"
+    },
+    {
+      "race": "State Representative District 20 Seat A",
+      "issue": "Candidate name display differs between county and precinct workbook; preserved county spelling",
+      "countyName": "Joe A. Palmer",
+      "precinctName": "Joe Palmer"
+    },
+    {
+      "race": "State Senator District 26",
+      "issue": "Candidate name display differs between county and precinct workbook; preserved county spelling",
+      "countyName": "Laurie Lickley",
+      "precinctName": "Laura Lickley"
+    },
+    {
+      "race": "State Representative District 30 Seat A",
+      "issue": "Candidate name display differs between county and precinct workbook; preserved county spelling",
+      "countyName": " David Cannon",
+      "precinctName": "David Cannon"
+    },
+    {
+      "race": "State Representative District 34 Seat A",
+      "issue": "Candidate name display differs between county and precinct workbook; preserved county spelling",
+      "countyName": "Jon O Weber",
+      "precinctName": "Jon O. Weber"
+    },
+    {
+      "race": "State Representative District 22 Seat B",
+      "issue": "Precinct workbook labels the second House block ST REP A in error. Race seat assignment comes from county workbook, which correctly identifies House B; both candidate names and all vote totals match."
+    },
+    {
+      "issue": "County XLS worksheet tab says 22 Primary Legis - County, while archive, filename, candidates, totals and official election-night page identify this as2022General. Data verified against General precinct XLSX."
+    }
+  ],
+  "rdComparable2022": 43,
+  "pairedContestedSeats": 33,
+  "meanChangeRminusD": 3.9365044533019735,
+  "medianChangeRminusD": 4.504174914083246,
+  "meanAbsoluteChange": 4.8422939956742646,
+  "rootMeanSquareChange": 6.683110200824696,
+  "sampleStandardDeviationChange": 5.484468192374967,
+  "maxAbsoluteChange": 25.92828561663766,
+  "pairedSeats": [
+    {
+      "race": "State Representative District 4 Seat A",
+      "margin2022": 27.22459539137236,
+      "margin2024": 31.0992637725311,
+      "change": 3.874668381158738
+    },
+    {
+      "race": "State Representative District 4 Seat B",
+      "margin2022": 22.637912546169428,
+      "margin2024": 27.362138533960994,
+      "change": 4.724225987791566
+    },
+    {
+      "race": "State Representative District 5 Seat B",
+      "margin2022": 57.829367382472434,
+      "margin2024": 57.84211311744516,
+      "change": 0.012745734972725131
+    },
+    {
+      "race": "State Senator District 6",
+      "margin2022": 2.1485943775100402,
+      "margin2024": 6.652769291593287,
+      "change": 4.504174914083246
+    },
+    {
+      "race": "State Representative District 6 Seat A",
+      "margin2022": 18.987090367428003,
+      "margin2024": 29.684425333430507,
+      "change": 10.697334966002504
+    },
+    {
+      "race": "State Representative District 6 Seat B",
+      "margin2022": 11.661404893449092,
+      "margin2024": 16.212328274473137,
+      "change": 4.550923381024045
+    },
+    {
+      "race": "State Senator District 10",
+      "margin2022": 54.43572721786361,
+      "margin2024": 61.3115754155864,
+      "change": 6.875848197722789
+    },
+    {
+      "race": "State Senator District 11",
+      "margin2022": 27.567010309278352,
+      "margin2024": 31.850975753991722,
+      "change": 4.28396544471337
+    },
+    {
+      "race": "State Representative District 11 Seat A",
+      "margin2022": 41.376451077943614,
+      "margin2024": 31.84243659691828,
+      "change": -9.534014481025334
+    },
+    {
+      "race": "State Representative District 11 Seat B",
+      "margin2022": 34.68238239282361,
+      "margin2024": 30.720364377322305,
+      "change": -3.9620180155013074
+    },
+    {
+      "race": "State Representative District 14 Seat B",
+      "margin2022": 48.63486103742399,
+      "margin2024": 55.045372050816695,
+      "change": 6.410511013392707
+    },
+    {
+      "race": "State Senator District 15",
+      "margin2022": -1.8107314912232129,
+      "margin2024": 3.6803874092009687,
+      "change": 5.491118900424182
+    },
+    {
+      "race": "State Representative District 15 Seat A",
+      "margin2022": -5.887469421038325,
+      "margin2024": -0.9201086295650764,
+      "change": 4.967360791473249
+    },
+    {
+      "race": "State Representative District 15 Seat B",
+      "margin2022": 5.411764705882353,
+      "margin2024": 7.290301441677588,
+      "change": 1.878536735795235
+    },
+    {
+      "race": "State Senator District 16",
+      "margin2022": -19.011815252416756,
+      "margin2024": -17.4723082799304,
+      "change": 1.5395069724863575
+    },
+    {
+      "race": "State Representative District 16 Seat B",
+      "margin2022": -20.61112057704322,
+      "margin2024": -19.577398520039353,
+      "change": 1.0337220570038674
+    },
+    {
+      "race": "State Senator District 17",
+      "margin2022": -19.56882255389718,
+      "margin2024": -14.574776254918069,
+      "change": 4.994046298979113
+    },
+    {
+      "race": "State Representative District 17 Seat B",
+      "margin2022": -21.757075471698112,
+      "margin2024": -13.868292896942044,
+      "change": 7.888782574756068
+    },
+    {
+      "race": "State Senator District 18",
+      "margin2022": -32.11170241948757,
+      "margin2024": -25.285937628569076,
+      "change": 6.825764790918495
+    },
+    {
+      "race": "State Representative District 19 Seat A",
+      "margin2022": -36.55015813802611,
+      "margin2024": -31.148259454044577,
+      "change": 5.4018986839815355
+    },
+    {
+      "race": "State Senator District 22",
+      "margin2022": 32.22228176410696,
+      "margin2024": 33.29034009911072,
+      "change": 1.0680583350037622
+    },
+    {
+      "race": "State Representative District 22 Seat A",
+      "margin2022": 25.17859896181323,
+      "margin2024": 31.813372470050172,
+      "change": 6.634773508236943
+    },
+    {
+      "race": "State Representative District 22 Seat B",
+      "margin2022": 31.99585277345775,
+      "margin2024": 33.88124101088967,
+      "change": 1.8853882374319184
+    },
+    {
+      "race": "State Senator District 23",
+      "margin2022": 63.13107920333488,
+      "margin2024": 62.30082589471928,
+      "change": -0.8302533086155961
+    },
+    {
+      "race": "State Representative District 26 Seat A",
+      "margin2022": -0.23289481966387612,
+      "margin2024": 2.382542863504787,
+      "change": 2.6154376831686634
+    },
+    {
+      "race": "State Representative District 26 Seat B",
+      "margin2022": 0.5332656170644997,
+      "margin2024": 3.06127022544933,
+      "change": 2.52800460838483
+    },
+    {
+      "race": "State Representative District 29 Seat A",
+      "margin2022": 4.439542258375845,
+      "margin2024": 10.414030012655939,
+      "change": 5.974487754280094
+    },
+    {
+      "race": "State Representative District 29 Seat B",
+      "margin2022": -0.7708189951823813,
+      "margin2024": 5.21114517088347,
+      "change": 5.981964166065851
+    },
+    {
+      "race": "State Senator District 30",
+      "margin2022": 68.58638743455498,
+      "margin2024": 67.96714579055441,
+      "change": -0.6192416440005672
+    },
+    {
+      "race": "State Representative District 30 Seat B",
+      "margin2022": 38.0453885535264,
+      "margin2024": 63.97367417016406,
+      "change": 25.92828561663766
+    },
+    {
+      "race": "State Representative District 31 Seat A",
+      "margin2022": 71.95223880597015,
+      "margin2024": 72.0235197183626,
+      "change": 0.07128091239245293
+    },
+    {
+      "race": "State Representative District 31 Seat B",
+      "margin2022": 72.26347305389221,
+      "margin2024": 72.4479088592415,
+      "change": 0.18443580534928117
+    },
+    {
+      "race": "State Representative District 33 Seat A",
+      "margin2022": 20.098340503995082,
+      "margin2024": 26.12126245847176,
+      "change": 6.022921954476679
+    }
+  ],
+  "caution": "Single cycle-to-cycle comparison, not an independent calibration of2026odds. Includes changingcandidates and broader cycle effects; contestedseatselection matters."
+}

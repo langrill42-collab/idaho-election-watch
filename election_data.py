@@ -8,6 +8,8 @@ import subprocess
 import threading
 import unicodedata
 
+from projections import attach_projections
+
 ROOT = Path(__file__).resolve().parent
 DATA = ROOT / "data"
 RESULTS_URL = "https://results.voteidaho.gov/cdn/results/id/export-nov2026.json"
@@ -230,8 +232,11 @@ class ElectionStore:
         self.lock = threading.Lock()
         self.refresh_lock = threading.Lock()
         self.history = read_json(DATA / "history.json", {})
+        self.history2022 = read_json(DATA / "history-2022.json", {})
         self.finance = read_json(DATA / "finance.json", {"records": [], "fetchedAt": None})
         self.current = read_json(DATA / "current.json")
+        if self.current:
+            attach_projections(self.current, self.history2022)
         raw = read_json(DATA / "raw" / "2026-results.json")
         if self.current is None and raw:
             self.current = self.build(raw)
@@ -239,7 +244,7 @@ class ElectionStore:
     def build(self, raw):
         data = normalize(raw, self.history, self.finance.get("records", []))
         data["meta"]["financeUpdatedAt"] = self.finance.get("fetchedAt")
-        return data
+        return attach_projections(data, self.history2022)
 
     def get(self):
         with self.lock:

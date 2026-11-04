@@ -30,6 +30,7 @@
       <div class="toolbar">
         <label class="search"><svg aria-hidden="true" viewBox="0 0 20 20"><circle cx="8" cy="8" r="5.5"/><path d="m12 12 5 5"/></svg><input id="search" type="search" placeholder="Find a candidate, district or race" aria-label="Search races and candidates"></label>
         <select id="race-filter" aria-label="Filter races"><option value="all">All races</option><option value="contested">Contested</option><option value="reporting">Reporting results</option><option value="awaiting">Awaiting results</option></select>
+        <select id="rating-filter" aria-label="Filter ratings"><option value="all">All ratings</option><option value="toss-up">Toss-up</option><option value="likely">Likely</option><option value="very-likely">Very likely</option><option value="longshot">Longshot</option><option value="no-contest">No real contest</option><option value="unopposed">Unopposed</option><option value="unrated">Unrated</option><option value="override">Your ratings</option></select>
         <button id="watch-filter" class="watch-filter" aria-pressed="false">☆ <span>Watchlist</span><span id="watch-count">0</span></button>
         <div class="view-switch" aria-label="View"><button id="map-button" class="active" aria-pressed="true">◫ Map</button><button id="list-button" aria-pressed="false">☷ List</button></div>
       </div>
@@ -42,12 +43,12 @@
         <section class="canvas" aria-label="Map and race list">
           <div class="canvas-header"><div><div class="eyebrow" id="canvas-eyebrow">35 DISTRICTS · 105 SEATS</div><h2 id="canvas-title">The Idaho Legislature</h2></div><div class="map-actions"><button id="zoom-district" class="text-button">Zoom to district</button><button id="reset-map" class="text-button">Reset map ↗</button></div></div>
           <div class="map-view" id="map-view">
-            <div class="map-controls"><div class="year-switch" aria-label="Map coloring"><button data-year="2026" class="active" aria-pressed="true">2026 returns</button><button data-year="2024" aria-pressed="false">2024 baseline</button></div><span id="map-context">Senate</span></div>
+            <div class="map-controls"><div class="year-switch" aria-label="Map coloring"><button data-year="ratings" class="active" aria-pressed="true">Race ratings</button><button data-year="2026" aria-pressed="false">2026 returns</button><button data-year="2024" aria-pressed="false">2024 baseline</button></div><span id="map-context">Senate</span></div>
             <div id="map" aria-label="Interactive Idaho election map"></div>
             <div class="map-legend" id="map-legend"></div>
             <div class="map-footnote" id="map-footnote">Select a district to explore its races.</div>
           </div>
-          <div class="table-view" id="table-view" hidden><div class="table-controls"><span id="table-description">All legislative races</span><label>Sort <select id="sort"><option value="district">District / office</option><option value="margin">Closest current margin</option><option value="history">Closest historical margin</option><option value="fundraising">Most funds raised</option><option value="name">Race name</option></select></label></div><div class="table-scroll"><table><thead><tr><th>Race</th><th>Candidates</th><th>Current result</th><th>Previous result</th><th>Reported raised</th></tr></thead><tbody id="table-body"></tbody></table></div></div>
+          <div class="table-view" id="table-view" hidden><div class="table-controls"><span id="table-description">All legislative races</span><label>Sort <select id="sort"><option value="district">District / office</option><option value="rating">Most competitive rating</option><option value="margin">Closest current margin</option><option value="history">Closest historical margin</option><option value="fundraising">Most funds raised</option><option value="name">Race name</option></select></label></div><div class="table-scroll"><table><thead><tr><th>Race</th><th>Candidates</th><th>Pre-election rating</th><th>Current result</th><th>Previous result</th><th>Reported raised</th></tr></thead><tbody id="table-body"></tbody></table></div></div>
         </section>
         <aside class="detail-panel" id="detail-panel" aria-label="Selected race details"><div class="empty-state"><h3>Your election desk</h3><p>Select a race to see candidates, historical results and campaign finance.</p></div></aside>
       </div>

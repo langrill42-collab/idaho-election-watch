@@ -1,0 +1,1687 @@
+{
+  "State Senator District 1": {
+    "year": 2022,
+    "sourceUrl": "https://archive.sos.idaho.gov/elections/data/results/2022/2022_General_Canvass.zip",
+    "candidates": [
+      {
+        "name": "Scott Herndon",
+        "party": "Republican",
+        "votes": 13064
+      },
+      {
+        "name": "Steven R Johnson",
+        "party": "Independent",
+        "votes": 9025
+      }
+    ],
+    "totalVotes": 22089,
+    "marginPoints": 18.285119290144415
+  },
+  "State Representative District 1 Seat A": {
+    "year": 2022,
+    "sourceUrl": "https://archive.sos.idaho.gov/elections/data/results/2022/2022_General_Canvass.zip",
+    "candidates": [
+      {
+        "name": "Mark Sauter",
+        "party": "Republican",
+        "votes": 18434
+      }
+    ],
+    "totalVotes": 18434,
+    "marginPoints": null
+  },
+  "State Representative District 1 Seat B": {
+    "year": 2022,
+    "sourceUrl": "https://archive.sos.idaho.gov/elections/data/results/2022/2022_General_Canvass.zip",
+    "candidates": [
+      {
+        "name": "Sage G. Dixon",
+        "party": "Republican",
+        "votes": 17501
+      }
+    ],
+    "totalVotes": 17501,
+    "marginPoints": null
+  },
+  "State Senator District 2": {
+    "year": 2022,
+    "sourceUrl": "https://archive.sos.idaho.gov/elections/data/results/2022/2022_General_Canvass.zip",
+    "candidates": [
+      {
+        "name": "Phil Hart",
+        "party": "Republican",
+        "votes": 16770
+      }
+    ],
+    "totalVotes": 16770,
+    "marginPoints": null
+  },
+  "State Representative District 2 Seat A": {
+    "year": 2022,
+    "sourceUrl": "https://archive.sos.idaho.gov/elections/data/results/2022/2022_General_Canvass.zip",
+    "candidates": [
+      {
+        "name": "Heather Scott",
+        "party": "Republican",
+        "votes": 16901
+      }
+    ],
+    "totalVotes": 16901,
+    "marginPoints": null
+  },
+  "State Representative District 2 Seat B": {
+    "year": 2022,
+    "sourceUrl": "https://archive.sos.idaho.gov/elections/data/results/2022/2022_General_Canvass.zip",
+    "candidates": [
+      {
+        "name": "Dale Hawkins",
+        "party": "Republican",
+        "votes": 15537
+      },
+      {
+        "name": "Tom Stroschein",
+        "party": "Democratic",
+        "votes": 3633
+      },
+      {
+        "name": "Jennifer Ann Luoma",
+        "party": "Libertarian",
+        "votes": 621
+      }
+    ],
+    "totalVotes": 19791,
+    "marginPoints": 60.14855237229043
+  },
+  "State Senator District 3": {
+    "year": 2022,
+    "sourceUrl": "https://archive.sos.idaho.gov/elections/data/results/2022/2022_General_Canvass.zip",
+    "candidates": [
+      {
+        "name": "Doug \"Doug-O\" Okuniewicz",
+        "party": "Republican",
+        "votes": 17365
+      }
+    ],
+    "totalVotes": 17365,
+    "marginPoints": null
+  },
+  "State Representative District 3 Seat A": {
+    "year": 2022,
+    "sourceUrl": "https://archive.sos.idaho.gov/elections/data/results/2022/2022_General_Canvass.zip",
+    "candidates": [
+      {
+        "name": "Vito Barbieri",
+        "party": "Republican",
+        "votes": 17287
+      }
+    ],
+    "totalVotes": 17287,
+    "marginPoints": null
+  },
+  "State Representative District 3 Seat B": {
+    "year": 2022,
+    "sourceUrl": "https://archive.sos.idaho.gov/elections/data/results/2022/2022_General_Canvass.zip",
+    "candidates": [
+      {
+        "name": "Jordan Redman",
+        "party": "Republican",
+        "votes": 17464
+      }
+    ],
+    "totalVotes": 17464,
+    "marginPoints": null
+  },
+  "State Senator District 4": {
+    "year": 2022,
+    "sourceUrl": "https://archive.sos.idaho.gov/elections/data/results/2022/2022_General_Canvass.zip",
+    "candidates": [
+      {
+        "name": "Ben Toews",
+        "party": "Republican",
+        "votes": 12332
+      }
+    ],
+    "totalVotes": 12332,
+    "marginPoints": null
+  },
+  "State Representative District 4 Seat A": {
+    "year": 2022,
+    "sourceUrl": "https://archive.sos.idaho.gov/elections/data/results/2022/2022_General_Canvass.zip",
+    "candidates": [
+      {
+        "name": "Joe Alfieri",
+        "party": "Republican",
+        "votes": 10573
+      },
+      {
+        "name": "Megan Dardis-Kunz",
+        "party": "Democratic",
+        "votes": 6048
+      }
+    ],
+    "totalVotes": 16621,
+    "marginPoints": 27.22459539137236
+  },
+  "State Representative District 4 Seat B": {
+    "year": 2022,
+    "sourceUrl": "https://archive.sos.idaho.gov/elections/data/results/2022/2022_General_Canvass.zip",
+    "candidates": [
+      {
+        "name": "Elaine Price",
+        "party": "Republican",
+        "votes": 10293
+      },
+      {
+        "name": "Larry Bieber",
+        "party": "Democratic",
+        "votes": 6493
+      }
+    ],
+    "totalVotes": 16786,
+    "marginPoints": 22.637912546169428
+  },
+  "State Senator District 5": {
+    "year": 2022,
+    "sourceUrl": "https://archive.sos.idaho.gov/elections/data/results/2022/2022_General_Canvass.zip",
+    "candidates": [
+      {
+        "name": "Carl Bjerke",
+        "party": "Republican",
+        "votes": 14586
+      }
+    ],
+    "totalVotes": 14586,
+    "marginPoints": null
+  },
+  "State Representative District 5 Seat A": {
+    "year": 2022,
+    "sourceUrl": "https://archive.sos.idaho.gov/elections/data/results/2022/2022_General_Canvass.zip",
+    "candidates": [
+      {
+        "name": "Ron Mendive",
+        "party": "Republican",
+        "votes": 13527
+      },
+      {
+        "name": "Kristy Reed Johnson",
+        "party": "Democratic",
+        "votes": 3696
+      }
+    ],
+    "totalVotes": 17223,
+    "marginPoints": 57.080647970736806
+  },
+  "State Representative District 5 Seat B": {
+    "year": 2022,
+    "sourceUrl": "https://archive.sos.idaho.gov/elections/data/results/2022/2022_General_Canvass.zip",
+    "candidates": [
+      {
+        "name": "Tony Wisniewski",
+        "party": "Republican",
+        "votes": 13597
+      },
+      {
+        "name": "Teresa Borrenpohl",
+        "party": "Democratic",
+        "votes": 3633
+      }
+    ],
+    "totalVotes": 17230,
+    "marginPoints": 57.829367382472434
+  },
+  "State Senator District 6": {
+    "year": 2022,
+    "sourceUrl": "https://archive.sos.idaho.gov/elections/data/results/2022/2022_General_Canvass.zip",
+    "candidates": [
+      {
+        "name": "Dan Foreman",
+        "party": "Republican",
+        "votes": 10174
+      },
+      {
+        "name": "David Nelson",
+        "party": "Democratic",
+        "votes": 9746
+      },
+      {
+        "name": "James Hartley",
+        "party": "Constitution",
+        "votes": 398
+      }
+    ],
+    "totalVotes": 20318,
+    "marginPoints": 2.106506545919874
+  },
+  "State Representative District 6 Seat A": {
+    "year": 2022,
+    "sourceUrl": "https://archive.sos.idaho.gov/elections/data/results/2022/2022_General_Canvass.zip",
+    "candidates": [
+      {
+        "name": "Lori McCann",
+        "party": "Republican",
+        "votes": 11982
+      },
+      {
+        "name": "Trish Carter-Goodheart",
+        "party": "Democratic",
+        "votes": 8158
+      }
+    ],
+    "totalVotes": 20140,
+    "marginPoints": 18.987090367428003
+  },
+  "State Representative District 6 Seat B": {
+    "year": 2022,
+    "sourceUrl": "https://archive.sos.idaho.gov/elections/data/results/2022/2022_General_Canvass.zip",
+    "candidates": [
+      {
+        "name": "Brandon Mitchell",
+        "party": "Republican",
+        "votes": 11318
+      },
+      {
+        "name": "Tim Gresback",
+        "party": "Democratic",
+        "votes": 8954
+      }
+    ],
+    "totalVotes": 20272,
+    "marginPoints": 11.661404893449092
+  },
+  "State Senator District 7": {
+    "year": 2022,
+    "sourceUrl": "https://archive.sos.idaho.gov/elections/data/results/2022/2022_General_Canvass.zip",
+    "candidates": [
+      {
+        "name": "Cindy Carlson",
+        "party": "Republican",
+        "votes": 15685
+      }
+    ],
+    "totalVotes": 15685,
+    "marginPoints": null
+  },
+  "State Representative District 7 Seat A": {
+    "year": 2022,
+    "sourceUrl": "https://archive.sos.idaho.gov/elections/data/results/2022/2022_General_Canvass.zip",
+    "candidates": [
+      {
+        "name": "Mike Kingsley",
+        "party": "Republican",
+        "votes": 15509
+      }
+    ],
+    "totalVotes": 15509,
+    "marginPoints": null
+  },
+  "State Representative District 7 Seat B": {
+    "year": 2022,
+    "sourceUrl": "https://archive.sos.idaho.gov/elections/data/results/2022/2022_General_Canvass.zip",
+    "candidates": [
+      {
+        "name": "Charlie Shepherd",
+        "party": "Republican",
+        "votes": 15499
+      }
+    ],
+    "totalVotes": 15499,
+    "marginPoints": null
+  },
+  "State Senator District 8": {
+    "year": 2022,
+    "sourceUrl": "https://archive.sos.idaho.gov/elections/data/results/2022/2022_General_Canvass.zip",
+    "candidates": [
+      {
+        "name": "Geoff Schroeder",
+        "party": "Republican",
+        "votes": 13776
+      }
+    ],
+    "totalVotes": 13776,
+    "marginPoints": null
+  },
+  "State Representative District 8 Seat A": {
+    "year": 2022,
+    "sourceUrl": "https://archive.sos.idaho.gov/elections/data/results/2022/2022_General_Canvass.zip",
+    "candidates": [
+      {
+        "name": "Matthew \"Matt\" Bundy",
+        "party": "Republican",
+        "votes": 12160
+      },
+      {
+        "name": "Steven W Feil",
+        "party": "Constitution",
+        "votes": 3088
+      }
+    ],
+    "totalVotes": 15248,
+    "marginPoints": 59.49632738719832
+  },
+  "State Representative District 8 Seat B": {
+    "year": 2022,
+    "sourceUrl": "https://archive.sos.idaho.gov/elections/data/results/2022/2022_General_Canvass.zip",
+    "candidates": [
+      {
+        "name": "Megan Blanksma",
+        "party": "Republican",
+        "votes": 12604
+      },
+      {
+        "name": "Tony Ullrich",
+        "party": "Constitution",
+        "votes": 2482
+      }
+    ],
+    "totalVotes": 15086,
+    "marginPoints": 67.09532016439083
+  },
+  "State Senator District 9": {
+    "year": 2022,
+    "sourceUrl": "https://archive.sos.idaho.gov/elections/data/results/2022/2022_General_Canvass.zip",
+    "candidates": [
+      {
+        "name": "Abby Lee",
+        "party": "Republican",
+        "votes": 14478
+      }
+    ],
+    "totalVotes": 14478,
+    "marginPoints": null
+  },
+  "State Representative District 9 Seat A": {
+    "year": 2022,
+    "sourceUrl": "https://archive.sos.idaho.gov/elections/data/results/2022/2022_General_Canvass.zip",
+    "candidates": [
+      {
+        "name": "Jacyn Gallagher",
+        "party": "Republican",
+        "votes": 14621
+      }
+    ],
+    "totalVotes": 14621,
+    "marginPoints": null
+  },
+  "State Representative District 9 Seat B": {
+    "year": 2022,
+    "sourceUrl": "https://archive.sos.idaho.gov/elections/data/results/2022/2022_General_Canvass.zip",
+    "candidates": [
+      {
+        "name": "Judy Boyle",
+        "party": "Republican",
+        "votes": 14274
+      }
+    ],
+    "totalVotes": 14274,
+    "marginPoints": null
+  },
+  "State Senator District 10": {
+    "year": 2022,
+    "sourceUrl": "https://archive.sos.idaho.gov/elections/data/results/2022/2022_General_Canvass.zip",
+    "candidates": [
+      {
+        "name": "Tammy Nichols",
+        "party": "Republican",
+        "votes": 15354
+      },
+      {
+        "name": "Bob Solomon",
+        "party": "Democratic",
+        "votes": 4530
+      }
+    ],
+    "totalVotes": 19884,
+    "marginPoints": 54.43572721786361
+  },
+  "State Representative District 10 Seat A": {
+    "year": 2022,
+    "sourceUrl": "https://archive.sos.idaho.gov/elections/data/results/2022/2022_General_Canvass.zip",
+    "candidates": [
+      {
+        "name": "Mike Moyle",
+        "party": "Republican",
+        "votes": 16998
+      }
+    ],
+    "totalVotes": 16998,
+    "marginPoints": null
+  },
+  "State Representative District 10 Seat B": {
+    "year": 2022,
+    "sourceUrl": "https://archive.sos.idaho.gov/elections/data/results/2022/2022_General_Canvass.zip",
+    "candidates": [
+      {
+        "name": "Bruce D. Skaug",
+        "party": "Republican",
+        "votes": 16950
+      }
+    ],
+    "totalVotes": 16950,
+    "marginPoints": null
+  },
+  "State Senator District 11": {
+    "year": 2022,
+    "sourceUrl": "https://archive.sos.idaho.gov/elections/data/results/2022/2022_General_Canvass.zip",
+    "candidates": [
+      {
+        "name": "Chris Trakel",
+        "party": "Republican",
+        "votes": 6187
+      },
+      {
+        "name": "Toni Ferro",
+        "party": "Democratic",
+        "votes": 3513
+      }
+    ],
+    "totalVotes": 9700,
+    "marginPoints": 27.567010309278352
+  },
+  "State Representative District 11 Seat A": {
+    "year": 2022,
+    "sourceUrl": "https://archive.sos.idaho.gov/elections/data/results/2022/2022_General_Canvass.zip",
+    "candidates": [
+      {
+        "name": "Julie K Yamamoto",
+        "party": "Republican",
+        "votes": 6820
+      },
+      {
+        "name": "Robert Scoville",
+        "party": "Democratic",
+        "votes": 2828
+      }
+    ],
+    "totalVotes": 9648,
+    "marginPoints": 41.376451077943614
+  },
+  "State Representative District 11 Seat B": {
+    "year": 2022,
+    "sourceUrl": "https://archive.sos.idaho.gov/elections/data/results/2022/2022_General_Canvass.zip",
+    "candidates": [
+      {
+        "name": "Chris Allgood",
+        "party": "Republican",
+        "votes": 6456
+      },
+      {
+        "name": "Marisela Pesina",
+        "party": "Democratic",
+        "votes": 3131
+      }
+    ],
+    "totalVotes": 9587,
+    "marginPoints": 34.68238239282361
+  },
+  "State Senator District 12": {
+    "year": 2022,
+    "sourceUrl": "https://archive.sos.idaho.gov/elections/data/results/2022/2022_General_Canvass.zip",
+    "candidates": [
+      {
+        "name": "Ben Adams",
+        "party": "Republican",
+        "votes": 10044
+      }
+    ],
+    "totalVotes": 10044,
+    "marginPoints": null
+  },
+  "State Representative District 12 Seat A": {
+    "year": 2022,
+    "sourceUrl": "https://archive.sos.idaho.gov/elections/data/results/2022/2022_General_Canvass.zip",
+    "candidates": [
+      {
+        "name": "Jeff Cornilles",
+        "party": "Republican",
+        "votes": 10053
+      }
+    ],
+    "totalVotes": 10053,
+    "marginPoints": null
+  },
+  "State Representative District 12 Seat B": {
+    "year": 2022,
+    "sourceUrl": "https://archive.sos.idaho.gov/elections/data/results/2022/2022_General_Canvass.zip",
+    "candidates": [
+      {
+        "name": "Jaron Crane",
+        "party": "Republican",
+        "votes": 9960
+      }
+    ],
+    "totalVotes": 9960,
+    "marginPoints": null
+  },
+  "State Senator District 13": {
+    "year": 2022,
+    "sourceUrl": "https://archive.sos.idaho.gov/elections/data/results/2022/2022_General_Canvass.zip",
+    "candidates": [
+      {
+        "name": "Brian Lenney",
+        "party": "Republican",
+        "votes": 10091
+      }
+    ],
+    "totalVotes": 10091,
+    "marginPoints": null
+  },
+  "State Representative District 13 Seat A": {
+    "year": 2022,
+    "sourceUrl": "https://archive.sos.idaho.gov/elections/data/results/2022/2022_General_Canvass.zip",
+    "candidates": [
+      {
+        "name": "Brent J. Crane",
+        "party": "Republican",
+        "votes": 9476
+      },
+      {
+        "name": "Petre Danaila",
+        "party": "Constitution",
+        "votes": 1522
+      }
+    ],
+    "totalVotes": 10998,
+    "marginPoints": 72.3222404073468
+  },
+  "State Representative District 13 Seat B": {
+    "year": 2022,
+    "sourceUrl": "https://archive.sos.idaho.gov/elections/data/results/2022/2022_General_Canvass.zip",
+    "candidates": [
+      {
+        "name": "Kenny Wroten",
+        "party": "Republican",
+        "votes": 10113
+      }
+    ],
+    "totalVotes": 10113,
+    "marginPoints": null
+  },
+  "State Senator District 14": {
+    "year": 2022,
+    "sourceUrl": "https://archive.sos.idaho.gov/elections/data/results/2022/2022_General_Canvass.zip",
+    "candidates": [
+      {
+        "name": "C. Scott Grow",
+        "party": "Republican",
+        "votes": 18502
+      },
+      {
+        "name": "Robert Imhoff",
+        "party": "Libertarian",
+        "votes": 2356
+      },
+      {
+        "name": "Kirsten Faith Richardson",
+        "party": "Constitution",
+        "votes": 1934
+      }
+    ],
+    "totalVotes": 22792,
+    "marginPoints": 70.84064584064583
+  },
+  "State Representative District 14 Seat A": {
+    "year": 2022,
+    "sourceUrl": "https://archive.sos.idaho.gov/elections/data/results/2022/2022_General_Canvass.zip",
+    "candidates": [
+      {
+        "name": "Ted Hill",
+        "party": "Republican",
+        "votes": 18522
+      },
+      {
+        "name": "Crystal Ivie",
+        "party": "Democratic",
+        "votes": 5919
+      }
+    ],
+    "totalVotes": 24441,
+    "marginPoints": 51.56499324904873
+  },
+  "State Representative District 14 Seat B": {
+    "year": 2022,
+    "sourceUrl": "https://archive.sos.idaho.gov/elections/data/results/2022/2022_General_Canvass.zip",
+    "candidates": [
+      {
+        "name": "Josh Tanner",
+        "party": "Republican",
+        "votes": 18210
+      },
+      {
+        "name": "Shelley Brock",
+        "party": "Democratic",
+        "votes": 6293
+      }
+    ],
+    "totalVotes": 24503,
+    "marginPoints": 48.63486103742399
+  },
+  "State Senator District 15": {
+    "year": 2022,
+    "sourceUrl": "https://archive.sos.idaho.gov/elections/data/results/2022/2022_General_Canvass.zip",
+    "candidates": [
+      {
+        "name": "Rick Just",
+        "party": "Democratic",
+        "votes": 9193
+      },
+      {
+        "name": "Codi Galloway",
+        "party": "Republican",
+        "votes": 8866
+      },
+      {
+        "name": "Sarah A. Clendenon",
+        "party": "Constitution",
+        "votes": 413
+      }
+    ],
+    "totalVotes": 18472,
+    "marginPoints": 1.770246860112603
+  },
+  "State Representative District 15 Seat A": {
+    "year": 2022,
+    "sourceUrl": "https://archive.sos.idaho.gov/elections/data/results/2022/2022_General_Canvass.zip",
+    "candidates": [
+      {
+        "name": "Steve Berch",
+        "party": "Democratic",
+        "votes": 9739
+      },
+      {
+        "name": "Steve Keyser",
+        "party": "Republican",
+        "votes": 8656
+      }
+    ],
+    "totalVotes": 18395,
+    "marginPoints": 5.887469421038325
+  },
+  "State Representative District 15 Seat B": {
+    "year": 2022,
+    "sourceUrl": "https://archive.sos.idaho.gov/elections/data/results/2022/2022_General_Canvass.zip",
+    "candidates": [
+      {
+        "name": "Dori Healey",
+        "party": "Republican",
+        "votes": 9632
+      },
+      {
+        "name": "Jeff Nafsinger",
+        "party": "Democratic",
+        "votes": 8643
+      }
+    ],
+    "totalVotes": 18275,
+    "marginPoints": 5.411764705882353
+  },
+  "State Senator District 16": {
+    "year": 2022,
+    "sourceUrl": "https://archive.sos.idaho.gov/elections/data/results/2022/2022_General_Canvass.zip",
+    "candidates": [
+      {
+        "name": "Ali Rabe",
+        "party": "Democratic",
+        "votes": 10526
+      },
+      {
+        "name": "Dennis Mansfield",
+        "party": "Republican",
+        "votes": 7163
+      }
+    ],
+    "totalVotes": 17689,
+    "marginPoints": 19.011815252416756
+  },
+  "State Representative District 16 Seat A": {
+    "year": 2022,
+    "sourceUrl": "https://archive.sos.idaho.gov/elections/data/results/2022/2022_General_Canvass.zip",
+    "candidates": [
+      {
+        "name": "Sonia Galaviz",
+        "party": "Democratic",
+        "votes": 10118
+      },
+      {
+        "name": "Mark A Montoya",
+        "party": "Republican",
+        "votes": 6487
+      },
+      {
+        "name": "Wayne Richey",
+        "party": "Independent",
+        "votes": 1039
+      }
+    ],
+    "totalVotes": 17644,
+    "marginPoints": 20.5792337338472
+  },
+  "State Representative District 16 Seat B": {
+    "year": 2022,
+    "sourceUrl": "https://archive.sos.idaho.gov/elections/data/results/2022/2022_General_Canvass.zip",
+    "candidates": [
+      {
+        "name": "Colin Nash",
+        "party": "Democratic",
+        "votes": 10618
+      },
+      {
+        "name": "Jackie Davidson",
+        "party": "Republican",
+        "votes": 6989
+      }
+    ],
+    "totalVotes": 17607,
+    "marginPoints": 20.61112057704322
+  },
+  "State Senator District 17": {
+    "year": 2022,
+    "sourceUrl": "https://archive.sos.idaho.gov/elections/data/results/2022/2022_General_Canvass.zip",
+    "candidates": [
+      {
+        "name": "Carrie Semmelroth",
+        "party": "Democratic",
+        "votes": 10094
+      },
+      {
+        "name": "Benjamin Donovan Chafetz",
+        "party": "Republican",
+        "votes": 6790
+      }
+    ],
+    "totalVotes": 16884,
+    "marginPoints": 19.56882255389718
+  },
+  "State Representative District 17 Seat A": {
+    "year": 2022,
+    "sourceUrl": "https://archive.sos.idaho.gov/elections/data/results/2022/2022_General_Canvass.zip",
+    "candidates": [
+      {
+        "name": "John Gannon",
+        "party": "Democratic",
+        "votes": 10341
+      },
+      {
+        "name": "April Larson",
+        "party": "Republican",
+        "votes": 6581
+      }
+    ],
+    "totalVotes": 16922,
+    "marginPoints": 22.21959579245952
+  },
+  "State Representative District 17 Seat B": {
+    "year": 2022,
+    "sourceUrl": "https://archive.sos.idaho.gov/elections/data/results/2022/2022_General_Canvass.zip",
+    "candidates": [
+      {
+        "name": "Sue Chew",
+        "party": "Democratic",
+        "votes": 10325
+      },
+      {
+        "name": "Mary Ellen Nourse",
+        "party": "Republican",
+        "votes": 6635
+      }
+    ],
+    "totalVotes": 16960,
+    "marginPoints": 21.757075471698112
+  },
+  "State Senator District 18": {
+    "year": 2022,
+    "sourceUrl": "https://archive.sos.idaho.gov/elections/data/results/2022/2022_General_Canvass.zip",
+    "candidates": [
+      {
+        "name": "Janie Ward-Engelking",
+        "party": "Democratic",
+        "votes": 12040
+      },
+      {
+        "name": "Dan Bridges",
+        "party": "Republican",
+        "votes": 6187
+      }
+    ],
+    "totalVotes": 18227,
+    "marginPoints": 32.11170241948757
+  },
+  "State Representative District 18 Seat A": {
+    "year": 2022,
+    "sourceUrl": "https://archive.sos.idaho.gov/elections/data/results/2022/2022_General_Canvass.zip",
+    "candidates": [
+      {
+        "name": "Ilana Rubel",
+        "party": "Democratic",
+        "votes": 11935
+      },
+      {
+        "name": "MaryKate Johnson",
+        "party": "Republican",
+        "votes": 6307
+      }
+    ],
+    "totalVotes": 18242,
+    "marginPoints": 30.851880276285495
+  },
+  "State Representative District 18 Seat B": {
+    "year": 2022,
+    "sourceUrl": "https://archive.sos.idaho.gov/elections/data/results/2022/2022_General_Canvass.zip",
+    "candidates": [
+      {
+        "name": "Brooke Green",
+        "party": "Democratic",
+        "votes": 11756
+      },
+      {
+        "name": "Gregory T Holtz",
+        "party": "Republican",
+        "votes": 6336
+      }
+    ],
+    "totalVotes": 18092,
+    "marginPoints": 29.957992482865354
+  },
+  "State Senator District 19": {
+    "year": 2022,
+    "sourceUrl": "https://archive.sos.idaho.gov/elections/data/results/2022/2022_General_Canvass.zip",
+    "candidates": [
+      {
+        "name": "Melissa Wintrow",
+        "party": "Democratic",
+        "votes": 16862
+      },
+      {
+        "name": "Blair Moss",
+        "party": "Republican",
+        "votes": 7881
+      }
+    ],
+    "totalVotes": 24743,
+    "marginPoints": 36.2971345431031
+  },
+  "State Representative District 19 Seat A": {
+    "year": 2022,
+    "sourceUrl": "https://archive.sos.idaho.gov/elections/data/results/2022/2022_General_Canvass.zip",
+    "candidates": [
+      {
+        "name": "Lauren Necochea",
+        "party": "Democratic",
+        "votes": 16838
+      },
+      {
+        "name": "Melissa J. Christian",
+        "party": "Republican",
+        "votes": 7824
+      }
+    ],
+    "totalVotes": 24662,
+    "marginPoints": 36.55015813802611
+  },
+  "State Representative District 19 Seat B": {
+    "year": 2022,
+    "sourceUrl": "https://archive.sos.idaho.gov/elections/data/results/2022/2022_General_Canvass.zip",
+    "candidates": [
+      {
+        "name": "Chris Mathias",
+        "party": "Democratic",
+        "votes": 16916
+      },
+      {
+        "name": "James Faasau",
+        "party": "Republican",
+        "votes": 7694
+      }
+    ],
+    "totalVotes": 24610,
+    "marginPoints": 37.472572125152375
+  },
+  "State Senator District 20": {
+    "year": 2022,
+    "sourceUrl": "https://archive.sos.idaho.gov/elections/data/results/2022/2022_General_Canvass.zip",
+    "candidates": [
+      {
+        "name": "Chuck Winder",
+        "party": "Republican",
+        "votes": 13709
+      }
+    ],
+    "totalVotes": 13709,
+    "marginPoints": null
+  },
+  "State Representative District 20 Seat A": {
+    "year": 2022,
+    "sourceUrl": "https://archive.sos.idaho.gov/elections/data/results/2022/2022_General_Canvass.zip",
+    "candidates": [
+      {
+        "name": "Joe A. Palmer",
+        "party": "Republican",
+        "votes": 13634
+      }
+    ],
+    "totalVotes": 13634,
+    "marginPoints": null
+  },
+  "State Representative District 20 Seat B": {
+    "year": 2022,
+    "sourceUrl": "https://archive.sos.idaho.gov/elections/data/results/2022/2022_General_Canvass.zip",
+    "candidates": [
+      {
+        "name": "James D Holtzclaw",
+        "party": "Republican",
+        "votes": 13602
+      }
+    ],
+    "totalVotes": 13602,
+    "marginPoints": null
+  },
+  "State Senator District 21": {
+    "year": 2022,
+    "sourceUrl": "https://archive.sos.idaho.gov/elections/data/results/2022/2022_General_Canvass.zip",
+    "candidates": [
+      {
+        "name": "Treg A. Bernt",
+        "party": "Republican",
+        "votes": 12861
+      },
+      {
+        "name": "Monica McKinley",
+        "party": "Constitution",
+        "votes": 2610
+      }
+    ],
+    "totalVotes": 15471,
+    "marginPoints": 66.25945317044794
+  },
+  "State Representative District 21 Seat A": {
+    "year": 2022,
+    "sourceUrl": "https://archive.sos.idaho.gov/elections/data/results/2022/2022_General_Canvass.zip",
+    "candidates": [
+      {
+        "name": "James Petzke",
+        "party": "Republican",
+        "votes": 10829
+      },
+      {
+        "name": "Josi Christensen",
+        "party": "Democratic",
+        "votes": 5191
+      },
+      {
+        "name": "Daniel Weston",
+        "party": "Constitution",
+        "votes": 881
+      },
+      {
+        "name": "Mike Long",
+        "party": "Libertarian",
+        "votes": 503
+      }
+    ],
+    "totalVotes": 17404,
+    "marginPoints": 32.394851758216504
+  },
+  "State Representative District 21 Seat B": {
+    "year": 2022,
+    "sourceUrl": "https://archive.sos.idaho.gov/elections/data/results/2022/2022_General_Canvass.zip",
+    "candidates": [
+      {
+        "name": "Jeff Ehlers",
+        "party": "Republican",
+        "votes": 13565
+      }
+    ],
+    "totalVotes": 13565,
+    "marginPoints": null
+  },
+  "State Senator District 22": {
+    "year": 2022,
+    "sourceUrl": "https://archive.sos.idaho.gov/elections/data/results/2022/2022_General_Canvass.zip",
+    "candidates": [
+      {
+        "name": "Lori Den Hartog",
+        "party": "Republican",
+        "votes": 12337
+      },
+      {
+        "name": "Pat Soulliere",
+        "party": "Democratic",
+        "votes": 6324
+      },
+      {
+        "name": "Brendan J. Gomez",
+        "party": "Constitution",
+        "votes": 694
+      }
+    ],
+    "totalVotes": 19355,
+    "marginPoints": 31.066907775768534
+  },
+  "State Representative District 22 Seat A": {
+    "year": 2022,
+    "sourceUrl": "https://archive.sos.idaho.gov/elections/data/results/2022/2022_General_Canvass.zip",
+    "candidates": [
+      {
+        "name": "John Vander Woude",
+        "party": "Republican",
+        "votes": 12178
+      },
+      {
+        "name": "Natalie R. MacLachlan",
+        "party": "Democratic",
+        "votes": 7279
+      }
+    ],
+    "totalVotes": 19457,
+    "marginPoints": 25.17859896181323
+  },
+  "State Representative District 22 Seat B": {
+    "year": 2022,
+    "sourceUrl": "https://archive.sos.idaho.gov/elections/data/results/2022/2022_General_Canvass.zip",
+    "candidates": [
+      {
+        "name": "Jason A. Monks",
+        "party": "Republican",
+        "votes": 12731
+      },
+      {
+        "name": "Dawn Pierce",
+        "party": "Democratic",
+        "votes": 6559
+      }
+    ],
+    "totalVotes": 19290,
+    "marginPoints": 31.99585277345775
+  },
+  "State Senator District 23": {
+    "year": 2022,
+    "sourceUrl": "https://archive.sos.idaho.gov/elections/data/results/2022/2022_General_Canvass.zip",
+    "candidates": [
+      {
+        "name": "Todd Lakey",
+        "party": "Republican",
+        "votes": 12327
+      },
+      {
+        "name": "Mik Lose",
+        "party": "Democratic",
+        "votes": 2786
+      },
+      {
+        "name": "Jon Basabe",
+        "party": "Libertarian",
+        "votes": 655
+      }
+    ],
+    "totalVotes": 15768,
+    "marginPoints": 60.508625063419586
+  },
+  "State Representative District 23 Seat A": {
+    "year": 2022,
+    "sourceUrl": "https://archive.sos.idaho.gov/elections/data/results/2022/2022_General_Canvass.zip",
+    "candidates": [
+      {
+        "name": "Melissa Durrant",
+        "party": "Republican",
+        "votes": 13616
+      }
+    ],
+    "totalVotes": 13616,
+    "marginPoints": null
+  },
+  "State Representative District 23 Seat B": {
+    "year": 2022,
+    "sourceUrl": "https://archive.sos.idaho.gov/elections/data/results/2022/2022_General_Canvass.zip",
+    "candidates": [
+      {
+        "name": "Tina Lambert",
+        "party": "Republican",
+        "votes": 13506
+      }
+    ],
+    "totalVotes": 13506,
+    "marginPoints": null
+  },
+  "State Senator District 24": {
+    "year": 2022,
+    "sourceUrl": "https://archive.sos.idaho.gov/elections/data/results/2022/2022_General_Canvass.zip",
+    "candidates": [
+      {
+        "name": "Glenneda Zuiderveld",
+        "party": "Republican",
+        "votes": 13144
+      }
+    ],
+    "totalVotes": 13144,
+    "marginPoints": null
+  },
+  "State Representative District 24 Seat A": {
+    "year": 2022,
+    "sourceUrl": "https://archive.sos.idaho.gov/elections/data/results/2022/2022_General_Canvass.zip",
+    "candidates": [
+      {
+        "name": "Chenele Dixon",
+        "party": "Republican",
+        "votes": 13280
+      }
+    ],
+    "totalVotes": 13280,
+    "marginPoints": null
+  },
+  "State Representative District 24 Seat B": {
+    "year": 2022,
+    "sourceUrl": "https://archive.sos.idaho.gov/elections/data/results/2022/2022_General_Canvass.zip",
+    "candidates": [
+      {
+        "name": "Steve Miller",
+        "party": "Republican",
+        "votes": 13290
+      }
+    ],
+    "totalVotes": 13290,
+    "marginPoints": null
+  },
+  "State Senator District 25": {
+    "year": 2022,
+    "sourceUrl": "https://archive.sos.idaho.gov/elections/data/results/2022/2022_General_Canvass.zip",
+    "candidates": [
+      {
+        "name": "Linda Wright Hartgen",
+        "party": "Republican",
+        "votes": 8213
+      },
+      {
+        "name": "Paul Thompson",
+        "party": "Constitution",
+        "votes": 2716
+      }
+    ],
+    "totalVotes": 10929,
+    "marginPoints": 50.29737395919114
+  },
+  "State Representative District 25 Seat A": {
+    "year": 2022,
+    "sourceUrl": "https://archive.sos.idaho.gov/elections/data/results/2022/2022_General_Canvass.zip",
+    "candidates": [
+      {
+        "name": "Lance Clow",
+        "party": "Republican",
+        "votes": 9314
+      }
+    ],
+    "totalVotes": 9314,
+    "marginPoints": null
+  },
+  "State Representative District 25 Seat B": {
+    "year": 2022,
+    "sourceUrl": "https://archive.sos.idaho.gov/elections/data/results/2022/2022_General_Canvass.zip",
+    "candidates": [
+      {
+        "name": "Gregory Lanting",
+        "party": "Republican",
+        "votes": 8278
+      },
+      {
+        "name": "Liyah Babayan",
+        "party": "Independent",
+        "votes": 3155
+      }
+    ],
+    "totalVotes": 11433,
+    "marginPoints": 44.80888655645937
+  },
+  "State Senator District 26": {
+    "year": 2022,
+    "sourceUrl": "https://archive.sos.idaho.gov/elections/data/results/2022/2022_General_Canvass.zip",
+    "candidates": [
+      {
+        "name": "Ron C Taylor",
+        "party": "Democratic",
+        "votes": 8117
+      },
+      {
+        "name": "Laurie Lickley",
+        "party": "Republican",
+        "votes": 7604
+      }
+    ],
+    "totalVotes": 15721,
+    "marginPoints": 3.2631511990331403
+  },
+  "State Representative District 26 Seat A": {
+    "year": 2022,
+    "sourceUrl": "https://archive.sos.idaho.gov/elections/data/results/2022/2022_General_Canvass.zip",
+    "candidates": [
+      {
+        "name": "Ned Burns",
+        "party": "Democratic",
+        "votes": 7962
+      },
+      {
+        "name": "Mike Pohanka",
+        "party": "Republican",
+        "votes": 7925
+      }
+    ],
+    "totalVotes": 15887,
+    "marginPoints": 0.23289481966387612
+  },
+  "State Representative District 26 Seat B": {
+    "year": 2022,
+    "sourceUrl": "https://archive.sos.idaho.gov/elections/data/results/2022/2022_General_Canvass.zip",
+    "candidates": [
+      {
+        "name": "Jack Nelsen",
+        "party": "Republican",
+        "votes": 7918
+      },
+      {
+        "name": "Karma Metzler Fitzgerald",
+        "party": "Democratic",
+        "votes": 7834
+      }
+    ],
+    "totalVotes": 15752,
+    "marginPoints": 0.5332656170644997
+  },
+  "State Senator District 27": {
+    "year": 2022,
+    "sourceUrl": "https://archive.sos.idaho.gov/elections/data/results/2022/2022_General_Canvass.zip",
+    "candidates": [
+      {
+        "name": "Kelly Anthon",
+        "party": "Republican",
+        "votes": 10650
+      },
+      {
+        "name": "Bill Drury",
+        "party": "Independent",
+        "votes": 1312
+      }
+    ],
+    "totalVotes": 11962,
+    "marginPoints": 78.0638689182411
+  },
+  "State Representative District 27 Seat A": {
+    "year": 2022,
+    "sourceUrl": "https://archive.sos.idaho.gov/elections/data/results/2022/2022_General_Canvass.zip",
+    "candidates": [
+      {
+        "name": "Douglas T Pickett",
+        "party": "Republican",
+        "votes": 11225
+      }
+    ],
+    "totalVotes": 11225,
+    "marginPoints": null
+  },
+  "State Representative District 27 Seat B": {
+    "year": 2022,
+    "sourceUrl": "https://archive.sos.idaho.gov/elections/data/results/2022/2022_General_Canvass.zip",
+    "candidates": [
+      {
+        "name": "Clay Handy",
+        "party": "Republican",
+        "votes": 11057
+      }
+    ],
+    "totalVotes": 11057,
+    "marginPoints": null
+  },
+  "State Senator District 28": {
+    "year": 2022,
+    "sourceUrl": "https://archive.sos.idaho.gov/elections/data/results/2022/2022_General_Canvass.zip",
+    "candidates": [
+      {
+        "name": "Jim Guthrie",
+        "party": "Republican",
+        "votes": 11441
+      },
+      {
+        "name": "Mike Saville",
+        "party": "Independent",
+        "votes": 3614
+      }
+    ],
+    "totalVotes": 15055,
+    "marginPoints": 51.98937230156094
+  },
+  "State Representative District 28 Seat A": {
+    "year": 2022,
+    "sourceUrl": "https://archive.sos.idaho.gov/elections/data/results/2022/2022_General_Canvass.zip",
+    "candidates": [
+      {
+        "name": "Richard \"Rick\" Cheatum",
+        "party": "Republican",
+        "votes": 13086
+      }
+    ],
+    "totalVotes": 13086,
+    "marginPoints": null
+  },
+  "State Representative District 28 Seat B": {
+    "year": 2022,
+    "sourceUrl": "https://archive.sos.idaho.gov/elections/data/results/2022/2022_General_Canvass.zip",
+    "candidates": [
+      {
+        "name": "Dan Garner",
+        "party": "Republican",
+        "votes": 12986
+      }
+    ],
+    "totalVotes": 12986,
+    "marginPoints": null
+  },
+  "State Senator District 29": {
+    "year": 2022,
+    "sourceUrl": "https://archive.sos.idaho.gov/elections/data/results/2022/2022_General_Canvass.zip",
+    "candidates": [
+      {
+        "name": "James D. Ruchti",
+        "party": "Democratic",
+        "votes": 7863
+      },
+      {
+        "name": "David T. Worley",
+        "party": "Republican",
+        "votes": 6678
+      }
+    ],
+    "totalVotes": 14541,
+    "marginPoints": 8.149370744790593
+  },
+  "State Representative District 29 Seat A": {
+    "year": 2022,
+    "sourceUrl": "https://archive.sos.idaho.gov/elections/data/results/2022/2022_General_Canvass.zip",
+    "candidates": [
+      {
+        "name": "Dustin Whitney Manwaring",
+        "party": "Republican",
+        "votes": 7575
+      },
+      {
+        "name": "Mary Shea",
+        "party": "Democratic",
+        "votes": 6931
+      }
+    ],
+    "totalVotes": 14506,
+    "marginPoints": 4.439542258375845
+  },
+  "State Representative District 29 Seat B": {
+    "year": 2022,
+    "sourceUrl": "https://archive.sos.idaho.gov/elections/data/results/2022/2022_General_Canvass.zip",
+    "candidates": [
+      {
+        "name": "Nate Roberts",
+        "party": "Democratic",
+        "votes": 7321
+      },
+      {
+        "name": "Jake Stevens",
+        "party": "Republican",
+        "votes": 7209
+      }
+    ],
+    "totalVotes": 14530,
+    "marginPoints": 0.7708189951823813
+  },
+  "State Senator District 30": {
+    "year": 2022,
+    "sourceUrl": "https://archive.sos.idaho.gov/elections/data/results/2022/2022_General_Canvass.zip",
+    "candidates": [
+      {
+        "name": "Julie VanOrden",
+        "party": "Republican",
+        "votes": 10948
+      },
+      {
+        "name": "Dave Archuleta",
+        "party": "Democratic",
+        "votes": 2040
+      }
+    ],
+    "totalVotes": 12988,
+    "marginPoints": 68.58638743455498
+  },
+  "State Representative District 30 Seat A": {
+    "year": 2022,
+    "sourceUrl": "https://archive.sos.idaho.gov/elections/data/results/2022/2022_General_Canvass.zip",
+    "candidates": [
+      {
+        "name": "David Cannon",
+        "party": "Republican",
+        "votes": 11652
+      }
+    ],
+    "totalVotes": 11652,
+    "marginPoints": null
+  },
+  "State Representative District 30 Seat B": {
+    "year": 2022,
+    "sourceUrl": "https://archive.sos.idaho.gov/elections/data/results/2022/2022_General_Canvass.zip",
+    "candidates": [
+      {
+        "name": "Julianne Young",
+        "party": "Republican",
+        "votes": 9033
+      },
+      {
+        "name": "Travis Oler",
+        "party": "Democratic",
+        "votes": 4054
+      }
+    ],
+    "totalVotes": 13087,
+    "marginPoints": 38.0453885535264
+  },
+  "State Senator District 31": {
+    "year": 2022,
+    "sourceUrl": "https://archive.sos.idaho.gov/elections/data/results/2022/2022_General_Canvass.zip",
+    "candidates": [
+      {
+        "name": "Van Burtenshaw",
+        "party": "Republican",
+        "votes": 15391
+      }
+    ],
+    "totalVotes": 15391,
+    "marginPoints": null
+  },
+  "State Representative District 31 Seat A": {
+    "year": 2022,
+    "sourceUrl": "https://archive.sos.idaho.gov/elections/data/results/2022/2022_General_Canvass.zip",
+    "candidates": [
+      {
+        "name": "Jerald Raymond",
+        "party": "Republican",
+        "votes": 14401
+      },
+      {
+        "name": "Connie Delaney",
+        "party": "Democratic",
+        "votes": 2349
+      }
+    ],
+    "totalVotes": 16750,
+    "marginPoints": 71.95223880597015
+  },
+  "State Representative District 31 Seat B": {
+    "year": 2022,
+    "sourceUrl": "https://archive.sos.idaho.gov/elections/data/results/2022/2022_General_Canvass.zip",
+    "candidates": [
+      {
+        "name": "Rod Furniss",
+        "party": "Republican",
+        "votes": 14384
+      },
+      {
+        "name": "Wayne Talmadge",
+        "party": "Democratic",
+        "votes": 2316
+      }
+    ],
+    "totalVotes": 16700,
+    "marginPoints": 72.26347305389221
+  },
+  "State Senator District 32": {
+    "year": 2022,
+    "sourceUrl": "https://archive.sos.idaho.gov/elections/data/results/2022/2022_General_Canvass.zip",
+    "candidates": [
+      {
+        "name": "Kevin Cook",
+        "party": "Republican",
+        "votes": 10736
+      }
+    ],
+    "totalVotes": 10736,
+    "marginPoints": null
+  },
+  "State Representative District 32 Seat A": {
+    "year": 2022,
+    "sourceUrl": "https://archive.sos.idaho.gov/elections/data/results/2022/2022_General_Canvass.zip",
+    "candidates": [
+      {
+        "name": "Stephanie Jo Mickelsen",
+        "party": "Republican",
+        "votes": 10227
+      }
+    ],
+    "totalVotes": 10227,
+    "marginPoints": null
+  },
+  "State Representative District 32 Seat B": {
+    "year": 2022,
+    "sourceUrl": "https://archive.sos.idaho.gov/elections/data/results/2022/2022_General_Canvass.zip",
+    "candidates": [
+      {
+        "name": "Wendy Horman",
+        "party": "Republican",
+        "votes": 10258
+      }
+    ],
+    "totalVotes": 10258,
+    "marginPoints": null
+  },
+  "State Senator District 33": {
+    "year": 2022,
+    "sourceUrl": "https://archive.sos.idaho.gov/elections/data/results/2022/2022_General_Canvass.zip",
+    "candidates": [
+      {
+        "name": "Dave Lent",
+        "party": "Republican",
+        "votes": 8605
+      }
+    ],
+    "totalVotes": 8605,
+    "marginPoints": null
+  },
+  "State Representative District 33 Seat A": {
+    "year": 2022,
+    "sourceUrl": "https://archive.sos.idaho.gov/elections/data/results/2022/2022_General_Canvass.zip",
+    "candidates": [
+      {
+        "name": "Barbara Ehardt",
+        "party": "Republican",
+        "votes": 7816
+      },
+      {
+        "name": "Miranda Marquit",
+        "party": "Democratic",
+        "votes": 5200
+      }
+    ],
+    "totalVotes": 13016,
+    "marginPoints": 20.098340503995082
+  },
+  "State Representative District 33 Seat B": {
+    "year": 2022,
+    "sourceUrl": "https://archive.sos.idaho.gov/elections/data/results/2022/2022_General_Canvass.zip",
+    "candidates": [
+      {
+        "name": "Marco Erickson",
+        "party": "Republican",
+        "votes": 8649
+      }
+    ],
+    "totalVotes": 8649,
+    "marginPoints": null
+  },
+  "State Senator District 34": {
+    "year": 2022,
+    "sourceUrl": "https://archive.sos.idaho.gov/elections/data/results/2022/2022_General_Canvass.zip",
+    "candidates": [
+      {
+        "name": "Doug Ricks",
+        "party": "Republican",
+        "votes": 7366
+      }
+    ],
+    "totalVotes": 7366,
+    "marginPoints": null
+  },
+  "State Representative District 34 Seat A": {
+    "year": 2022,
+    "sourceUrl": "https://archive.sos.idaho.gov/elections/data/results/2022/2022_General_Canvass.zip",
+    "candidates": [
+      {
+        "name": "Jon O Weber",
+        "party": "Republican",
+        "votes": 7224
+      }
+    ],
+    "totalVotes": 7224,
+    "marginPoints": null
+  },
+  "State Representative District 34 Seat B": {
+    "year": 2022,
+    "sourceUrl": "https://archive.sos.idaho.gov/elections/data/results/2022/2022_General_Canvass.zip",
+    "candidates": [
+      {
+        "name": "Britt Raybould",
+        "party": "Republican",
+        "votes": 7099
+      }
+    ],
+    "totalVotes": 7099,
+    "marginPoints": null
+  },
+  "State Senator District 35": {
+    "year": 2022,
+    "sourceUrl": "https://archive.sos.idaho.gov/elections/data/results/2022/2022_General_Canvass.zip",
+    "candidates": [
+      {
+        "name": "Mark Harris",
+        "party": "Republican",
+        "votes": 13397
+      }
+    ],
+    "totalVotes": 13397,
+    "marginPoints": null
+  },
+  "State Representative District 35 Seat A": {
+    "year": 2022,
+    "sourceUrl": "https://archive.sos.idaho.gov/elections/data/results/2022/2022_General_Canvass.zip",
+    "candidates": [
+      {
+        "name": "Kevin Andrus",
+        "party": "Republican",
+        "votes": 13520
+      }
+    ],
+    "totalVotes": 13520,
+    "marginPoints": null
+  },
+  "State Representative District 35 Seat B": {
+    "year": 2022,
+    "sourceUrl": "https://archive.sos.idaho.gov/elections/data/results/2022/2022_General_Canvass.zip",
+    "candidates": [
+      {
+        "name": "Josh Wheeler",
+        "party": "Republican",
+        "votes": 13597
+      }
+    ],
+    "totalVotes": 13597,
+    "marginPoints": null
+  }
+}
