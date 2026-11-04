@@ -29,7 +29,7 @@
     view: 'list',
     year: saved.ratingsAvailable && ['ratings','2024','2026'].includes(saved.year) ? saved.year : 'ratings',
     selectedId: saved.selectedId || 'sen15',
-    query: '', filter: 'all', watchOnly: false, sort: 'district',
+    query: '', filter: 'all', watchOnly: false, sort: published ? 'rating' : 'district',
     pinned: new Set(readSaved('idaho-watch-pinned', [])),
     notes: readSaved('idaho-watch-notes', {}),
     overrides: readSaved('idaho-watch-ratings', {}), ratingFilter: 'all', ratingDrafts: {}, ratingOpen: new Set(),
@@ -581,7 +581,7 @@
     $('[data-category="ada"] .scope-label').textContent='Ada & ACHD';
     $('#watch-filter span:first-of-type').textContent='Saved';
     $('#search').placeholder='Find your district, race or candidate';
-    $('#filter-options').appendChild($('#sort').closest('label'));
+    $('#sort').value = state.sort;
     $('#filters-toggle').addEventListener('click',()=>{state.filtersOpen=!state.filtersOpen;renderHeader();});
     $('#map-race-select').addEventListener('change',e=>{state.selectedId=e.target.value;remember();render();});
     window.addEventListener('hashchange',restoreRaceView);
