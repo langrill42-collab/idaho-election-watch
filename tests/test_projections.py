@@ -50,7 +50,7 @@ class ProjectionTests(unittest.TestCase):
 
     def test_same_candidates_receive_no_extra_incumbency_bonus(self):
         p = ratings(race(margin=20))[0]["projection"]
-        self.assertEqual(p["marginPoints"], 20)
+        self.assertEqual(p["marginPoints"], 15)
         self.assertEqual(p["favoredCandidateId"], "r")
         self.assertTrue(p["preliminary"])
 
@@ -103,7 +103,7 @@ class ProjectionTests(unittest.TestCase):
         r["history2022"] = race(margin=-12)["history"]
         r["history2022"]["year"] = 2022
         p = ratings(r)[0]["projection"]
-        self.assertAlmostEqual(p["marginPoints"], 4)
+        self.assertAlmostEqual(p["marginPoints"], 0.667, places=3)
         self.assertGreater(p["uncertaintyPoints"], 12)
         self.assertEqual(p["years"], [2024, 2022])
 
@@ -116,6 +116,35 @@ class ProjectionTests(unittest.TestCase):
         self.assertEqual(p["years"], [2022])
         self.assertEqual(p["marginPoints"], 6)
         self.assertGreaterEqual(p["uncertaintyPoints"], 20)
+
+    def test_democratic_shift_changes_margin_without_rewriting_history(self):
+        r = race(margin=10)
+        original_history = copy.deepcopy(r["history"])
+        p = ratings(r)[0]["projection"]
+        self.assertEqual(p["marginPoints"], 5)
+        self.assertEqual(p["uncertaintyPoints"], 12)
+        self.assertEqual(r["history"], original_history)
+
+    def test_democratic_shift_only_affects_the_2024_share_of_two_cycle_baseline(self):
+        r = race(margin=10)
+        r["history2022"] = copy.deepcopy(r["history"])
+        r["history2022"]["year"] = 2022
+        p = ratings(r)[0]["projection"]
+        self.assertAlmostEqual(p["marginPoints"], 6.667, places=3)
+        self.assertEqual(p["uncertaintyPoints"], 12)
+
+    def test_democratic_shift_can_change_which_party_is_favored(self):
+        r = race(margin=1)
+        p = ratings(r)[0]["projection"]
+        self.assertEqual(p["marginPoints"], -4)
+        self.assertEqual(p["favoredCandidateId"], "d")
+
+    def test_democratic_shift_does_not_apply_to_nonmajor_matchups(self):
+        r = race(margin=10)
+        for candidates in (r["candidates"], r["history"]["candidates"]):
+            candidates[0]["party"] = "Constitution"
+            candidates[1]["party"] = "Independent"
+        self.assertEqual(ratings(r)[0]["projection"]["marginPoints"], 10)
 
 
 if __name__ == "__main__":
