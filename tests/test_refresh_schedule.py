@@ -1,4 +1,4 @@
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from http.client import HTTPConnection
 import json
 import threading
@@ -6,6 +6,7 @@ import unittest
 from unittest.mock import patch
 
 import app
+import publish_loop
 
 
 class StopAfterWaits:
@@ -40,6 +41,77 @@ class RecordingStore:
 
 
 class RefreshScheduleTests(unittest.TestCase):
+    def test_cloud_loop_publishes_repeatedly_without_cron_and_stops_at_cutoff(self):
+        now = datetime(2026, 11, 4, 7, 49, tzinfo=timezone.utc)
+        published = now - timedelta(minutes=10)
+        calls = []
+
+        def sleep(seconds):
+            nonlocal now
+            now += timedelta(seconds=seconds)
+
+        def dispatch(repository):
+            nonlocal now, published
+            calls.append((repository, now))
+            now += timedelta(seconds=20)
+            published = now
+
+        with patch("publish_loop.utc_now", side_effect=lambda: now), \
+                patch("publish_loop.time.sleep", side_effect=sleep), \
+                patch("publish_loop.published_time", side_effect=lambda url: published), \
+                patch("publish_loop.dispatch_update", side_effect=dispatch), patch("builtins.print"):
+            publish_loop.run("owner/repo", "https://example.com/watch/")
+        self.assertEqual([when.isoformat() for _, when in calls], [
+            "2026-11-04T07:49:00+00:00", "2026-11-04T07:54:20+00:00", "2026-11-04T07:59:40+00:00"])
+        self.assertEqual(now, app.AUTO_REFRESH_ENDS_AT)
+
+    def test_cloud_loop_does_nothing_outside_election_night(self):
+        for when in ("2026-11-04T03:59:59+00:00", "2026-11-04T08:00:00+00:00",
+                     "2026-11-05T04:00:00+00:00"):
+            with self.subTest(when=when), patch("publish_loop.utc_now", return_value=datetime.fromisoformat(when)), \
+                    patch("publish_loop.published_time") as read, patch("publish_loop.dispatch_update") as dispatch, \
+                    patch("builtins.print"):
+                publish_loop.run("owner/repo", "https://example.com/watch/")
+            read.assert_not_called()
+            dispatch.assert_not_called()
+
+    def test_cloud_dispatch_is_marked_automatic_so_late_jobs_cannot_bypass_cutoff(self):
+        with patch("publish_loop.subprocess.run") as command:
+            publish_loop.dispatch_update("owner/repo")
+        arguments = command.call_args.args[0]
+        self.assertIn("automatic=true", arguments)
+        self.assertIn("owner/repo", arguments)
+
+    def test_cloud_loop_retries_service_errors_without_hammering_or_missing_cutoff(self):
+        now = datetime(2026, 11, 4, 7, 49, tzinfo=timezone.utc)
+        calls = []
+
+        def sleep(seconds):
+            nonlocal now
+            now += timedelta(seconds=seconds)
+
+        def dispatch(repository):
+            calls.append(now)
+            if len(calls) == 1:
+                raise OSError("GitHub unavailable")
+
+        with patch("publish_loop.utc_now", side_effect=lambda: now), \
+                patch("publish_loop.time.sleep", side_effect=sleep), \
+                patch("publish_loop.published_time", side_effect=OSError("Snapshot unavailable")), \
+                patch("publish_loop.dispatch_update", side_effect=dispatch), patch("builtins.print"):
+            publish_loop.run("owner/repo", "https://example.com/watch/")
+        self.assertEqual([time.minute for time in calls], [49, 54, 59])
+        self.assertEqual(now, app.AUTO_REFRESH_ENDS_AT)
+
+    def test_cloud_loop_rechecks_cutoff_after_a_slow_network_read(self):
+        with patch("publish_loop.utc_now", side_effect=[
+                datetime(2026, 11, 4, 7, 59, 59, tzinfo=timezone.utc),
+                datetime(2026, 11, 4, 8, 0, 1, tzinfo=timezone.utc)]), \
+                patch("publish_loop.published_time", return_value=app.AUTO_REFRESH_STARTS_AT), \
+                patch("publish_loop.dispatch_update") as dispatch, patch("builtins.print"):
+            publish_loop.run("owner/repo", "https://example.com/watch/")
+        dispatch.assert_not_called()
+
     def test_no_automatic_requests_before_statewide_poll_close(self):
         for hour, minute in ((2, 0), (3, 30), (3, 59)):
             with self.subTest(hour=hour, minute=minute):

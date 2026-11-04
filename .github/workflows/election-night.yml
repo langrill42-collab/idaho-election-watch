@@ -1,0 +1,30 @@
+name: Keep Election Watch updating
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: write
+
+concurrency:
+  group: election-night-publisher
+  cancel-in-progress: false
+
+jobs:
+  keep-updating:
+    runs-on: ubuntu-latest
+    timeout-minutes: 250
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Check election logic
+        run: python -m unittest discover -s tests
+      - name: Publish every five minutes until 1 a.m. Mountain
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPOSITORY: ${{ github.repository }}
+          SITE_URL: https://langrill42-collab.github.io/idaho-election-watch/
+        run: python -u publish_loop.py --repository "$REPOSITORY" --site-url "$SITE_URL"
