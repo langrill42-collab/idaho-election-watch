@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Idaho Election Watch</title>
+  <link rel="stylesheet" href="/static/vendor/leaflet.css">
+  <link rel="stylesheet" href="/static/styles.css">
+  <script defer src="/static/vendor/leaflet.js"></script>
+  <script defer src="/static/app.js"></script>
+</head>
+<body>
+  <header class="masthead">
+    <div class="brand">
+      <div class="brandmark" aria-hidden="true"><svg viewBox="0 0 40 40" fill="none"><path d="M6 29 17 11l7 11 4-6 8 13H6Z" stroke="currentColor" stroke-width="1.8"/><path d="m12 20 5 3 5-4M8 34h28" stroke="currentColor" stroke-width="1.5"/></svg></div>
+      <div><div class="eyebrow">THE GEM STATE · GENERAL ELECTION</div><h1>Idaho <span>election watch</span></h1></div>
+    </div>
+    <div class="header-right"><div class="election-date">November 3, 2026</div><div class="local-label"><span class="local-dot"></span> On this Mac</div></div>
+  </header>
+  <nav class="scope-nav" aria-label="Election coverage">
+    <button class="scope-tab active" data-category="legislature" aria-pressed="true"><span class="tab-number">01</span> Legislature <span class="tab-count" id="leg-count">105</span></button>
+    <button class="scope-tab" data-category="statewide" aria-pressed="false"><span class="tab-number">02</span> Statewide &amp; measures <span class="tab-count" id="state-count">—</span></button>
+    <button class="scope-tab" data-category="ada" aria-pressed="false"><span class="tab-number">03</span> Ada County &amp; ACHD <span class="tab-count" id="ada-count">—</span></button>
+    <div class="source-status"><span id="status-dot" class="status-dot"></span><span id="source-status">Loading official data</span><button class="refresh-button" id="refresh" title="Refresh official results" aria-label="Refresh official results">↻</button></div>
+  </nav>
+  <main>
+    <div class="overview" id="overview" aria-live="polite"></div>
+    <div id="notice" class="notice" hidden role="status"></div>
+    <section class="workspace" aria-label="Election explorer">
+      <div class="toolbar">
+        <label class="search"><svg aria-hidden="true" viewBox="0 0 20 20"><circle cx="8" cy="8" r="5.5"/><path d="m12 12 5 5"/></svg><input id="search" type="search" placeholder="Find a candidate, district or race" aria-label="Search races and candidates"></label>
+        <select id="race-filter" aria-label="Filter races"><option value="all">All races</option><option value="contested">Contested</option><option value="reporting">Reporting results</option><option value="awaiting">Awaiting results</option></select>
+        <button id="watch-filter" class="watch-filter" aria-pressed="false">☆ <span>Watchlist</span><span id="watch-count">0</span></button>
+        <div class="view-switch" aria-label="View"><button id="map-button" class="active" aria-pressed="true">◫ Map</button><button id="list-button" aria-pressed="false">☷ List</button></div>
+      </div>
+      <div class="explorer">
+        <aside class="race-rail" aria-label="Race selection">
+          <div class="rail-heading"><span id="rail-label">LEGISLATIVE DISTRICTS</span><span id="rail-count">—</span></div>
+          <div class="chamber-switch" id="chamber-switch" aria-label="Legislative seat"><button data-chamber="senate" class="active" aria-pressed="true">Senate</button><button data-chamber="house-a" aria-pressed="false">House A</button><button data-chamber="house-b" aria-pressed="false">House B</button></div>
+          <div id="race-list" class="race-list"><div class="loading">Loading races…</div></div>
+        </aside>
+        <section class="canvas" aria-label="Map and race list">
+          <div class="canvas-header"><div><div class="eyebrow" id="canvas-eyebrow">35 DISTRICTS · 105 SEATS</div><h2 id="canvas-title">The Idaho Legislature</h2></div><div class="map-actions"><button id="zoom-district" class="text-button">Zoom to district</button><button id="reset-map" class="text-button">Reset map ↗</button></div></div>
+          <div class="map-view" id="map-view">
+            <div class="map-controls"><div class="year-switch" aria-label="Map coloring"><button data-year="2026" class="active" aria-pressed="true">2026 returns</button><button data-year="2024" aria-pressed="false">2024 baseline</button></div><span id="map-context">Senate</span></div>
+            <div id="map" aria-label="Interactive Idaho election map"></div>
+            <div class="map-legend" id="map-legend"></div>
+            <div class="map-footnote" id="map-footnote">Select a district to explore its races.</div>
+          </div>
+          <div class="table-view" id="table-view" hidden><div class="table-controls"><span id="table-description">All legislative races</span><label>Sort <select id="sort"><option value="district">District / office</option><option value="margin">Closest current margin</option><option value="history">Closest historical margin</option><option value="fundraising">Most funds raised</option><option value="name">Race name</option></select></label></div><div class="table-scroll"><table><thead><tr><th>Race</th><th>Candidates</th><th>Current result</th><th>Previous result</th><th>Reported raised</th></tr></thead><tbody id="table-body"></tbody></table></div></div>
+        </section>
+        <aside class="detail-panel" id="detail-panel" aria-label="Selected race details"><div class="empty-state"><h3>Your election desk</h3><p>Select a race to see candidates, historical results and campaign finance.</p></div></aside>
+      </div>
+    </section>
+    <footer class="app-footer"><span>Official data. Local perspective.</span><span id="fetch-time">Connecting to Idaho Secretary of State…</span><a href="https://voteidaho.gov/idaho-general-election/" target="_blank" rel="noreferrer">Election information ↗</a></footer>
+  </main>
+</body>
+</html>

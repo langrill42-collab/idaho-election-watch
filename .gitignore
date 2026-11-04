@@ -1,0 +1,9 @@
+.venv/
+__pycache__/
+.DS_Store
+data/raw/
+data/snapshots/
+data/current.json
+data/finance.json
+data/window/
+*.log
