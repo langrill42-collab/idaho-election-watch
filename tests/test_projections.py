@@ -103,7 +103,7 @@ class ProjectionTests(unittest.TestCase):
         r["history2022"] = race(margin=-12)["history"]
         r["history2022"]["year"] = 2022
         p = ratings(r)[0]["projection"]
-        self.assertAlmostEqual(p["marginPoints"], 0.667, places=3)
+        self.assertEqual(p["marginPoints"], -1)
         self.assertGreater(p["uncertaintyPoints"], 12)
         self.assertEqual(p["years"], [2024, 2022])
 
@@ -114,7 +114,7 @@ class ProjectionTests(unittest.TestCase):
         r["history2022"]["year"] = 2022
         p = ratings(r)[0]["projection"]
         self.assertEqual(p["years"], [2022])
-        self.assertEqual(p["marginPoints"], 6)
+        self.assertEqual(p["marginPoints"], 1)
         self.assertGreaterEqual(p["uncertaintyPoints"], 20)
 
     def test_democratic_shift_changes_margin_without_rewriting_history(self):
@@ -125,12 +125,12 @@ class ProjectionTests(unittest.TestCase):
         self.assertEqual(p["uncertaintyPoints"], 12)
         self.assertEqual(r["history"], original_history)
 
-    def test_democratic_shift_only_affects_the_2024_share_of_two_cycle_baseline(self):
+    def test_full_democratic_shift_applies_after_blending_both_cycles(self):
         r = race(margin=10)
         r["history2022"] = copy.deepcopy(r["history"])
         r["history2022"]["year"] = 2022
         p = ratings(r)[0]["projection"]
-        self.assertAlmostEqual(p["marginPoints"], 6.667, places=3)
+        self.assertEqual(p["marginPoints"], 5)
         self.assertEqual(p["uncertaintyPoints"], 12)
 
     def test_democratic_shift_can_change_which_party_is_favored(self):

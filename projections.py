@@ -3,9 +3,9 @@ from statistics import median
 import re
 import unicodedata
 
-MODEL_VERSION = "legislative-two-cycle-v3"
+MODEL_VERSION = "legislative-two-cycle-v4"
 MAJOR_PARTIES = {"Republican", "Democratic"}
-DEMOCRATIC_SHIFT_FROM_2024 = 5
+DEMOCRATIC_SHIFT_POINTS = 5
 
 
 def bucket_for_upset(chance):
@@ -126,10 +126,9 @@ def project_race(race, races):
         result["reasons"].append("Only 2022 supplies a comparable baseline; uncertainty is wider for the older result.")
     else:
         result["reasons"].append("Only 2024 supplies a comparable baseline; 2022 has no usable contested comparison.")
-    if {c.get("party") for c in candidates} == MAJOR_PARTIES and any(c["year"] == 2024 for c in cycles):
-        shift = DEMOCRATIC_SHIFT_FROM_2024 * 2 / sum(weights)
-        margin -= shift
-        result["reasons"].insert(0, f"Working assumption: shift the 2024 baseline {DEMOCRATIC_SHIFT_FROM_2024} margin points toward Democrats. With this race’s historical weights, the adjustment is {shift:.2f} points.")
+    if {c.get("party") for c in candidates} == MAJOR_PARTIES:
+        margin -= DEMOCRATIC_SHIFT_POINTS
+        result["reasons"].insert(0, f"Working assumption: shift the final historical baseline a full {DEMOCRATIC_SHIFT_POINTS} margin points toward Democrats, after blending the available years.")
     result["reasons"].extend(c["reason"] for c in cycles)
     first = next((c for c in candidates if c.get("party") == "Republican"), candidates[0]) if {c.get("party") for c in candidates} == MAJOR_PARTIES else candidates[0]
     second = next(c for c in candidates if c["id"] != first["id"])
