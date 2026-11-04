@@ -15,6 +15,7 @@ ORIGIN = f"http://127.0.0.1:{PORT}"
 AUTO_REFRESH_INTERVAL_SECONDS = 300
 # SOS starts publishing after the last Idaho polls close: 9 p.m. MT / 8 p.m. PT.
 AUTO_REFRESH_STARTS_AT = datetime.fromisoformat("2026-11-03T21:00:00-07:00")
+AUTO_REFRESH_ENDS_AT = datetime.fromisoformat("2026-11-04T01:00:00-07:00")
 
 
 def scheduled_snapshot(data):
@@ -22,7 +23,8 @@ def scheduled_snapshot(data):
         return data
     return {**data, "meta": {**data["meta"],
                             "autoRefreshIntervalSeconds": AUTO_REFRESH_INTERVAL_SECONDS,
-                            "autoRefreshStartsAt": AUTO_REFRESH_STARTS_AT.isoformat()}}
+                            "autoRefreshStartsAt": AUTO_REFRESH_STARTS_AT.isoformat(),
+                            "autoRefreshEndsAt": AUTO_REFRESH_ENDS_AT.isoformat()}}
 
 
 def geometry():
@@ -84,8 +86,8 @@ def create_server(store):
     return ThreadingHTTPServer(("127.0.0.1", PORT), Handler)
 
 
-def refresh_sources(store, now):
-    if now < AUTO_REFRESH_STARTS_AT:
+def refresh_sources(store, now, *, manual=False):
+    if now < AUTO_REFRESH_STARTS_AT or (not manual and now >= AUTO_REFRESH_ENDS_AT):
         return
     last_results = (store.get() or {}).get("meta", {}).get("fetchedAt")
     if last_results and (now - datetime.fromisoformat(last_results)).total_seconds() < AUTO_REFRESH_INTERVAL_SECONDS:
@@ -103,6 +105,8 @@ def refresh_sources(store, now):
 def update_loop(store, stop):
     while not stop.is_set():
         now = datetime.now(timezone.utc)
+        if now >= AUTO_REFRESH_ENDS_AT:
+            return
         if now < AUTO_REFRESH_STARTS_AT:
             stop.wait(min(AUTO_REFRESH_INTERVAL_SECONDS, (AUTO_REFRESH_STARTS_AT - now).total_seconds()))
             continue

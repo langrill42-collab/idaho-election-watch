@@ -5,7 +5,9 @@ on:
     branches: [main]
   workflow_dispatch:
   schedule:
-    - cron: '2-57/5 * * * *'
+    # November 3, 9 p.m. to November 4, 1 a.m. Mountain (04:00–08:00 UTC).
+    # The publisher also checks the exact 2026 cutoff in case a job is delayed.
+    - cron: '2-57/5 4-7 4 11 *'
 
 permissions:
   contents: read
@@ -45,7 +47,8 @@ jobs:
       - name: Build from public data
         env:
           SITE_URL: ${{ steps.pages.outputs.base_url }}
-        run: python publish_site.py --refresh --previous-site "$SITE_URL"
+          REFRESH_MODE: ${{ github.event_name == 'workflow_dispatch' && '--manual-refresh' || '--refresh' }}
+        run: python publish_site.py "$REFRESH_MODE" --previous-site "$SITE_URL"
       - uses: actions/cache/save@v4
         if: steps.restored-data.outputs.hash != hashFiles('data/current.json', 'data/finance.json')
         with:

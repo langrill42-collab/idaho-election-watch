@@ -59,7 +59,9 @@ def export_site(output, snapshot):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--output", type=Path, default=ROOT / "_site", help="New directory for the static site")
-    parser.add_argument("--refresh", action="store_true", help="Refresh sources if polls have closed and five minutes have elapsed")
+    refresh = parser.add_mutually_exclusive_group()
+    refresh.add_argument("--refresh", action="store_true", help="Refresh sources during the automatic election-night window")
+    refresh.add_argument("--manual-refresh", action="store_true", help="Refresh sources after polls close, including after the 1 a.m. cutoff")
     parser.add_argument("--previous-site", help="Restore the last published snapshot before refreshing")
     args = parser.parse_args()
     for name in ("current.json", "finance.json"):
@@ -69,8 +71,8 @@ def main():
     if args.previous_site:
         restore_published(args.previous_site)
     store = ElectionStore()
-    if args.refresh:
-        refresh_sources(store, datetime.now(timezone.utc))
+    if args.refresh or args.manual_refresh:
+        refresh_sources(store, datetime.now(timezone.utc), manual=args.manual_refresh)
     export_site(args.output, store.get())
     print(f"Election Watch site written to {args.output}")
 

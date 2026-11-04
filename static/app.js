@@ -22,6 +22,8 @@
   function readSaved(key, fallback) { try { return JSON.parse(localStorage.getItem(key)) ?? fallback; } catch { return fallback; } }
   function save(key, value) { try { localStorage.setItem(key, JSON.stringify(value)); return true; } catch { showNotice('Your changes could not be saved in this browser.'); return false; } }
   const saved = readSaved('idaho-watch-view', {});
+  const autoRefreshStartsAt = () => new Date(state.data?.meta.autoRefreshStartsAt || '2026-11-03T21:00:00-07:00').getTime();
+  const autoRefreshEndsAt = () => new Date(state.data?.meta.autoRefreshEndsAt || '2026-11-04T01:00:00-07:00').getTime();
   let refreshTimer;
   const state = {
     category: ['legislature','statewide','ada'].includes(saved.category) ? saved.category : 'legislature',
@@ -195,6 +197,18 @@
     const race = selectedRace();
     if (!race || race.category !== state.category) state.selectedId = filteredRaces(true)[0]?.id || null;
   }
+  function renderRefreshStatus() {
+    if (!state.data) return;
+    const m = state.data.meta;
+    const startsAt = new Date(autoRefreshStartsAt());
+    const endLabel = new Date(autoRefreshEndsAt()).toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit',timeZone:'America/Boise',timeZoneName:'short'});
+    const refreshStatus = Date.now() >= autoRefreshEndsAt()
+      ? `Automatic updates ended at ${endLabel} · Manual refresh available`
+      : Date.now() < startsAt.getTime()
+      ? `Auto-refresh paused until ${startsAt.toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit',timeZone:'America/Boise',timeZoneName:'short'})}`
+      : `${published ? 'Checks for published updates' : 'Auto-refresh'} every ${(m.autoRefreshIntervalSeconds || 300) / 60} minutes until ${endLabel}`;
+    $('#fetch-time').textContent = `Retrieved ${timeLabel(m.fetchedAt)} · ${refreshStatus}${published ? ' · Publication timing may vary' : ''}`;
+  }
   function renderHeader() {
     const races = state.data.races.filter(r => r.category === state.category);
     const reporting = races.filter(r => r.status === 'reporting').length;
@@ -212,11 +226,7 @@
     const m = state.data.meta;
     $('#source-status').textContent = m.fetchError ? 'Saved data · refresh unavailable' : `Source updated ${timeLabel(m.sourceUpdatedAt)}`;
     $('#status-dot').className = `status-dot${m.fetchError ? ' error' : reporting ? ' live' : ''}`;
-    const startsAt = new Date(m.autoRefreshStartsAt);
-    const refreshStatus = Date.now() < startsAt.getTime()
-      ? `Auto-refresh paused until ${startsAt.toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit',timeZone:'America/Boise',timeZoneName:'short'})}`
-      : `${published ? 'Checks for published updates' : 'Auto-refresh'} every ${(m.autoRefreshIntervalSeconds || 300) / 60} minutes`;
-    $('#fetch-time').textContent = `Retrieved ${timeLabel(m.fetchedAt)} · ${refreshStatus} · ${published ? 'Publication timing may vary' : 'Manual refresh available'}`;
+    renderRefreshStatus();
     showNotice(m.fetchError ? `Showing the last available official snapshot. ${m.fetchError}` : '');
     $('#rating-filter').hidden = state.category !== 'legislature';
     $('#watch-count').textContent = state.pinned.size;
@@ -505,10 +515,18 @@
   }
   function scheduleRefresh() {
     clearTimeout(refreshTimer);
-    const startsAt = new Date(state.data?.meta.autoRefreshStartsAt || 0).getTime();
+    const now = Date.now(), startsAt = autoRefreshStartsAt(), endsAt = autoRefreshEndsAt();
+    if (now >= endsAt) {
+      renderRefreshStatus();
+      return;
+    }
     const interval = (state.data?.meta.autoRefreshIntervalSeconds || 300) * 1000;
-    const delay = startsAt > Date.now() ? startsAt - Date.now() : interval;
-    refreshTimer = setTimeout(()=>fetchData(), Math.min(delay, 2147483647));
+    const delay = startsAt > now ? startsAt - now : Math.min(interval, endsAt - now);
+    refreshTimer = setTimeout(() => {
+      // Recheck after sleep/background throttling, before making a request.
+      if (Date.now() < autoRefreshStartsAt() || Date.now() >= autoRefreshEndsAt()) scheduleRefresh();
+      else fetchData();
+    }, Math.min(delay, 2147483647));
   }
   async function fetchData(refresh=false) {
     if(state.busy) return;

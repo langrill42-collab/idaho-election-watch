@@ -61,6 +61,27 @@ class RefreshScheduleTests(unittest.TestCase):
         self.assertEqual(stop.waits, [1, 300, 300])
         self.assertEqual(store.requests, ["finance", "results", "results"])
 
+    def test_automatic_loop_stops_at_one_am_and_stays_stopped_on_relaunch(self):
+        for when in ("2026-11-04T08:00:00+00:00", "2026-11-04T12:00:00+00:00",
+                     "2026-11-05T04:00:00+00:00"):
+            with self.subTest(when=when):
+                store, stop = RecordingStore(), StopAfterWaits(1)
+                with patch("app.datetime") as clock:
+                    clock.now.return_value = datetime.fromisoformat(when)
+                    app.update_loop(store, stop)
+                self.assertEqual(store.requests, [])
+                self.assertEqual(stop.waits, [])
+
+    def test_loop_crossing_cutoff_makes_no_further_requests(self):
+        store, stop = RecordingStore(), StopAfterWaits(2)
+        with patch("app.datetime") as clock:
+            clock.now.side_effect = [datetime(2026, 11, 4, 7, 59, tzinfo=timezone.utc),
+                                    datetime(2026, 11, 4, 8, 4, tzinfo=timezone.utc)]
+            clock.fromisoformat.side_effect = datetime.fromisoformat
+            app.update_loop(store, stop)
+        self.assertEqual(store.requests, ["finance", "results"])
+        self.assertEqual(stop.waits, [300])
+
     def test_opening_data_uses_cache_and_manual_refresh_remains_available(self):
         store = RecordingStore()
         with patch("app.PORT", 0):
@@ -77,6 +98,8 @@ class RefreshScheduleTests(unittest.TestCase):
             self.assertEqual(data["meta"]["autoRefreshIntervalSeconds"], 300)
             self.assertEqual(datetime.fromisoformat(data["meta"]["autoRefreshStartsAt"]),
                              datetime(2026, 11, 4, 4, 0, tzinfo=timezone.utc))
+            self.assertEqual(datetime.fromisoformat(data["meta"]["autoRefreshEndsAt"]),
+                             datetime(2026, 11, 4, 8, 0, tzinfo=timezone.utc))
             connection.request("POST", "/api/refresh")
             response = connection.getresponse()
             self.assertEqual(response.status, 200)

@@ -19,12 +19,44 @@ class PublishSiteTests(unittest.TestCase):
             ("2026-11-04T03:59:59+00:00", "2026-11-04T02:00:00+00:00", []),
             ("2026-11-04T04:00:00+00:00", "2026-11-04T02:00:00+00:00", ["finance", "results"]),
             ("2026-11-04T04:04:59+00:00", "2026-11-04T04:00:00+00:00", []),
+            ("2026-11-04T07:59:59+00:00", "2026-11-04T07:50:00+00:00", ["finance", "results"]),
+            ("2026-11-04T08:00:00+00:00", "2026-11-04T07:50:00+00:00", []),
+            ("2026-11-05T04:00:00+00:00", "2026-11-04T07:50:00+00:00", []),
         ]:
             with self.subTest(when=when):
                 store = RecordingStore()
                 store.snapshot["meta"]["fetchedAt"] = fetched
                 app.refresh_sources(store, datetime.fromisoformat(when))
                 self.assertEqual(store.requests, expected)
+
+    def test_manual_publication_after_cutoff_still_respects_request_spacing(self):
+        for when, fetched, expected in [
+            ("2026-11-04T03:59:59+00:00", "2026-11-04T02:00:00+00:00", []),
+            ("2026-11-04T08:00:00+00:00", "2026-11-04T07:50:00+00:00", ["finance", "results"]),
+            ("2026-11-04T08:04:59+00:00", "2026-11-04T08:00:00+00:00", []),
+            ("2026-11-05T12:00:00+00:00", "2026-11-04T08:00:00+00:00", ["finance", "results"]),
+        ]:
+            with self.subTest(when=when):
+                store = RecordingStore()
+                store.snapshot["meta"]["fetchedAt"] = fetched
+                app.refresh_sources(store, datetime.fromisoformat(when), manual=True)
+                self.assertEqual(store.requests, expected)
+
+    def test_publisher_cli_distinguishes_manual_and_automatic_runs_after_cutoff(self):
+        for flag, expected in (("--refresh", []), ("--manual-refresh", ["finance", "results"])):
+            with self.subTest(flag=flag), tempfile.TemporaryDirectory() as directory:
+                data = Path(directory)
+                for name in ("current.json", "finance.json"):
+                    (data / name).write_text("{}")
+                store = RecordingStore()
+                with patch("sys.argv", ["publish_site.py", flag]), patch("publish_site.DATA", data), \
+                        patch("publish_site.ElectionStore", return_value=store), \
+                        patch("publish_site.export_site") as export, patch("publish_site.datetime") as clock, \
+                        patch("builtins.print"):
+                    clock.now.return_value = datetime(2026, 11, 4, 8, 0, tzinfo=timezone.utc)
+                    publish_site.main()
+                self.assertEqual(store.requests, expected)
+                export.assert_called_once()
 
     def test_export_contains_only_web_assets_and_public_data(self):
         with tempfile.TemporaryDirectory() as directory:
@@ -38,6 +70,7 @@ class PublishSiteTests(unittest.TestCase):
             data = json.loads((output / "data/results.json").read_text())
             self.assertEqual(set(data), {"meta", "races"})
             self.assertEqual(data["meta"]["autoRefreshIntervalSeconds"], 300)
+            self.assertEqual(data["meta"]["autoRefreshEndsAt"], "2026-11-04T01:00:00-07:00")
             self.assertEqual(len(json.loads((output / "data/geometry.json").read_text())["legislative"]["features"]), 35)
             self.assertEqual({p.name for p in output.iterdir()}, {"index.html", ".nojekyll", "static", "data"})
             self.assertFalse((output / "app.py").exists())
